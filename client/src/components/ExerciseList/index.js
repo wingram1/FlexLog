@@ -2,15 +2,8 @@ import React, { useState } from "react";
 
 import ExerciseOptions from "./subcomponents/ExerciseOptions";
 
-function ExerciseList() {
-  const [exerciseData, setExerciseData] = useState({
-    0: {
-      id: 0,
-      name: "",
-      icon: "",
-      exerciseType: [],
-    },
-  });
+function ExerciseList(props) {
+  const { exerciseData, setExerciseData } = props;
 
   const [exerciseCounter, setExerciseCounter] = useState(1);
 
@@ -23,14 +16,10 @@ function ExerciseList() {
       ...exerciseData,
       [index]: { ...exerciseData[index], [name]: value },
     });
-
-    console.log(exerciseData);
   };
 
   const addExercise = function (e) {
     e.preventDefault();
-    console.log("exerciseCounter: " + exerciseCounter);
-    console.log(exerciseData);
 
     // push new exercise object to exerciseData
     setExerciseData({
@@ -80,9 +69,11 @@ function ExerciseList() {
             key={`name-${exerciseData[exercise].id}`}
             onChange={handleChange}
           ></input>
-          <ExerciseOptions exList={0} />
-          {/* TODO: TYPE (time, sets/reps, distance(add stopwatch?)) 
+          <ExerciseOptions exList={exercise} />
+
+          {/* TODO: TYPE select (time, sets/reps, distance(add stopwatch?)) 
                       then further TYPE settings*/}
+
           {/* TODO: icon select (return string of local link) */}
 
           <button onClick={removeExercise} data-id={exerciseData[exercise].id}>
