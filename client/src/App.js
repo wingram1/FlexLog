@@ -21,6 +21,9 @@ function App() {
             <Route exact path="/create" component={Create} />
             {/* UserLog Component */}
             {/* TodayLog Component */}
+            <Route exact path="*">
+              <p>This doesn't exist! (yet...?)</p>
+            </Route>
           </Switch>
         </div>
         <Footer />
