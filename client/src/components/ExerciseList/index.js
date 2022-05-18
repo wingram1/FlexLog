@@ -151,6 +151,7 @@ function ExerciseList(props) {
           <input
             type="number"
             placeholder="30"
+            min="0"
             data-id={exerciseData[exercise].id}
             key={`rest-${exerciseData[exercise].id}`}
             onChange={handleSettingChange}
