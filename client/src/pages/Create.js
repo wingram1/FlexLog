@@ -18,6 +18,7 @@ function Create() {
       settings: {
         sets: 1,
         reps: false,
+        weight: false,
         distance: false,
         timer: "",
         rest: 30,

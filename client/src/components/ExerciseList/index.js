@@ -125,6 +125,16 @@ function ExerciseList(props) {
             key={`reps-${exerciseData[exercise].id}`}
             onChange={handleSettingChange}
           />
+          {/* TODO: add weight setting */}
+          <br />
+          <label htmlFor="weight">Weight:</label>
+          <input
+            name="weight"
+            type="checkbox"
+            data-id={exerciseData[exercise].id}
+            key={`weight-${exerciseData[exercise].id}`}
+            onChange={handleSettingChange}
+          />
           <br />
           <label htmlFor="distance">Distance:</label>
           <input
