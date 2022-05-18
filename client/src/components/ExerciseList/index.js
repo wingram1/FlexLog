@@ -7,15 +7,42 @@ function ExerciseList(props) {
 
   const [exerciseCounter, setExerciseCounter] = useState(1);
 
-  const handleChange = async function (e) {
+  const handleChange = function (e) {
     const { name, value } = e.target;
+
     const index = e.target.getAttribute("data-id");
+
+    console.log(name, value, index);
 
     // modifies the targeted exerciseData child object
     setExerciseData({
       ...exerciseData,
       [index]: { ...exerciseData[index], [name]: value },
     });
+  };
+
+  const handleSettingChange = function (e) {
+    let { name, value } = e.target;
+
+    // changes value to true/false boolean if checked
+    if (e.target.type === "checkbox") {
+      value = e.target.checked;
+    } else if (e.target.type === "number") {
+      value = parseInt(value);
+    }
+
+    const index = e.target.getAttribute("data-id");
+
+    // modify nested settings object
+    setExerciseData({
+      ...exerciseData,
+      [index]: {
+        ...exerciseData[index],
+        settings: { ...exerciseData[index].settings, [name]: value },
+      },
+    });
+
+    console.log(exerciseData);
   };
 
   const addExercise = function (e) {
@@ -28,7 +55,13 @@ function ExerciseList(props) {
         id: exerciseCounter,
         name: "",
         icon: "",
-        exerciseType: [],
+        settings: {
+          sets: 1,
+          reps: false,
+          distance: false,
+          timer: "",
+          rest: 30,
+        },
       },
     });
 
@@ -36,7 +69,7 @@ function ExerciseList(props) {
     setExerciseCounter(exerciseCounter + 1);
   };
 
-  const removeExercise = async function (e) {
+  const removeExercise = function (e) {
     e.preventDefault();
     // get index from remove button's data-id
     let i = e.target.getAttribute("data-id");
@@ -71,11 +104,61 @@ function ExerciseList(props) {
           ></input>
           <ExerciseOptions exList={exercise} />
 
-          {/* TODO: TYPE select (time, sets/reps, distance(add stopwatch?)) 
-                      then further TYPE settings*/}
+          {/* Exercise Types */}
+          <br />
+          <label htmlFor="sets">Number of Sets:</label>
+          <input
+            name="sets"
+            type="number"
+            min="1"
+            placeholder="1"
+            data-id={exerciseData[exercise].id}
+            key={`sets-${exerciseData[exercise].id}`}
+            onChange={handleSettingChange}
+          />
+          <br />
+          <label htmlFor="reps">Reps:</label>
+          <input
+            name="reps"
+            type="checkbox"
+            data-id={exerciseData[exercise].id}
+            key={`reps-${exerciseData[exercise].id}`}
+            onChange={handleSettingChange}
+          />
+          <br />
+          <label htmlFor="distance">Distance:</label>
+          <input
+            name="distance"
+            type="checkbox"
+            data-id={exerciseData[exercise].id}
+            key={`distance-${exerciseData[exercise].id}`}
+            onChange={handleSettingChange}
+          />
+          <br />
+          <label htmlFor="timer">Timer:</label>
+          <select
+            name="timer"
+            data-id={exerciseData[exercise].id}
+            key={`timer-${exerciseData[exercise].id}`}
+            onChange={handleSettingChange}
+          >
+            <option value="">None</option>
+            <option value="countdown">Countdown</option>
+            <option value="stopwatch">Stopwatch</option>
+          </select>
+          <br />
+          <label htmlFor="rest">Rest Interval (in seconds)</label>
+          <input
+            type="number"
+            placeholder="30"
+            data-id={exerciseData[exercise].id}
+            key={`rest-${exerciseData[exercise].id}`}
+            onChange={handleSettingChange}
+          />
 
           {/* TODO: icon select (return string of local link) */}
 
+          <br />
           <button onClick={removeExercise} data-id={exerciseData[exercise].id}>
             Remove
           </button>

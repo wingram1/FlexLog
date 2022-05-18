@@ -5,10 +5,10 @@ function Home() {
     <div>
       <p>Hello from Homepage</p>
       <a href="/create">
-        <button>Create a workout</button>
+        <button>Create a Workout</button>
       </a>
-      <a href="/workout">
-        <button>Go to workouts page</button>
+      <a href="/workouts">
+        <button>My Workouts</button>
       </a>
       <div>Log component (calendar, etc.) here</div>
     </div>

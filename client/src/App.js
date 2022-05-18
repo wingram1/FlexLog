@@ -17,7 +17,7 @@ function App() {
         <div className="container">
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/workout" component={Workout} />
+            <Route exact path="/workouts" component={Workout} />
             <Route exact path="/create" component={Create} />
             {/* UserLog Component */}
             {/* TodayLog Component */}

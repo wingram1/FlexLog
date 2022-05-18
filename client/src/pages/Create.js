@@ -15,7 +15,13 @@ function Create() {
       id: 0,
       name: "",
       icon: "",
-      exerciseType: [],
+      settings: {
+        sets: 1,
+        reps: false,
+        distance: false,
+        timer: "",
+        rest: 30,
+      },
     },
   });
 
@@ -36,7 +42,7 @@ function Create() {
         id: index,
         name: exerciseData[key].name,
         icon: exerciseData[key].icon,
-        exerciseType: exerciseData[key].exerciseType,
+        settings: exerciseData[key].settings,
       };
     });
 
@@ -47,8 +53,25 @@ function Create() {
       exercises: exercises,
     };
 
-    // TODO: log to console for now; push to database later
+    // logs to console for testing purposes
     console.log(submittedFormData);
+
+    // push to localStorage
+    var myWorkouts = JSON.parse(localStorage.getItem("myWorkouts"));
+    console.log(myWorkouts);
+
+    if (!myWorkouts) {
+      console.log("No workouts found! Creating localStorage database...");
+      localStorage.setItem("myWorkouts", []);
+
+      myWorkouts = [];
+    }
+
+    myWorkouts.push(submittedFormData);
+    localStorage.setItem("myWorkouts", JSON.stringify(myWorkouts));
+
+    // document.location.replace("/workouts");
+    // TODO: when database is up, check for online then push there
   };
 
   return (
