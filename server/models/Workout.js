@@ -9,7 +9,40 @@ const WorkoutSchema = new Schema({
     ],
     exercises: [
         {
-            type: String
+            id: 0,
+            name: 'Plank',
+            icon: '',
+            settings: {
+                sets: 1,
+                reps: false,
+                distance: false,
+                timer: countdown,
+                rest: 30
+            }
+        },
+        {
+            id: 1,
+            name: 'Pushup',
+            icon: '',
+            settings: {
+                sets: 3,
+                reps: true,
+                distance: false,
+                timer: '',
+                rest: 30
+            }
+        },
+        {
+            id: 2,
+            name: 'Running',
+            icon: '',
+            settings: {
+                sets: 1,
+                reps: false,
+                distance: true,
+                timer: stopwatch,
+                rest: 30
+            }
         }
     ],
     categories: [
