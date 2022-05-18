@@ -58,7 +58,10 @@ function Workouts() {
             <p data-id={i} key={`desc-${i}`}>
               {key.description}
             </p>
-            <h4>Categories: </h4>
+            <h4>Category: </h4>
+            <ul>
+              <li key={`category-${i}`}>{key.categories}</li>
+            </ul>
             <h4>Exercises: </h4>
             <ul>
               {/* map exercises */}
