@@ -6,7 +6,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
-import Workout from "./pages/Workout";
+import Workouts from "./pages/Workouts";
 import Create from "./pages/Create";
 
 function App() {
@@ -17,7 +17,7 @@ function App() {
         <div className="container">
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/workouts" component={Workout} />
+            <Route exact path="/workouts" component={Workouts} />
             <Route exact path="/create" component={Create} />
             {/* UserLog Component */}
             {/* TodayLog Component */}
