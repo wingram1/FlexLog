@@ -1,13 +1,13 @@
-import logo from "./logo.svg";
 import React from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 
 import Header from "./components/Header";
-// import Footer from './components/Footer';
+import Footer from "./components/Footer";
 
 import Home from "./pages/Home";
-import Workout from "./pages/Workout";
+import Workouts from "./pages/Workouts";
+import Create from "./pages/Create";
 
 function App() {
   return (
@@ -17,10 +17,16 @@ function App() {
         <div className="container">
           <Switch>
             <Route exact path="/" component={Home} />
-            <Route exact path="/workout" component={Workout} />
+            <Route exact path="/workouts" component={Workouts} />
+            <Route exact path="/create" component={Create} />
+            {/* UserLog Component */}
+            {/* TodayLog Component */}
+            <Route exact path="*">
+              <p>This doesn't exist! (yet...?)</p>
+            </Route>
           </Switch>
         </div>
-        {/* <Footer /> */}
+        <Footer />
       </div>
     </Router>
   );

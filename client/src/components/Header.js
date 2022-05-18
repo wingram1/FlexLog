@@ -6,6 +6,9 @@ function Header() {
       <a href="/">
         <h1>FlexLog</h1>
       </a>
+      <a href="/login">
+        <p>Log In/Sign Up</p>
+      </a>
     </header>
   );
 }
