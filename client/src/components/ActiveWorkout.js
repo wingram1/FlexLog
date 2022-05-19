@@ -76,9 +76,6 @@ function Active(props) {
 
     // push to sessionData
     setSessionData(tempData);
-
-    // log to console for testing
-    console.log(sessionData);
   }
 
   return (
@@ -102,7 +99,6 @@ function Active(props) {
               sessionData.exercises[activeExercise.currentIndex].setData;
             return (
               <div key={`sets-${index}`}>
-                {/* TODO: BUG - when clicking arrows, input forms do not reset if exercises have same fields */}
                 {/* TODO: make it to where set data conditionally generates based on which set is selected */}
                 <h4>Set {index + 1}:</h4>
                 {currentExercise.settings.weight && (
@@ -151,6 +147,7 @@ function Active(props) {
                     />
                   </>
                 )}
+                {/* TODO: add timer */}
                 {currentExercise.settings.timer && (
                   <>
                     <p>{currentExercise.settings.timer} clock will go here</p>
