@@ -9,45 +9,54 @@ const WorkoutSchema = new Schema({
     ],
     exercises: [
         {
-            id: 0,
-            name: 'Plank',
-            icon: '',
-            settings: {
-                sets: 1,
-                reps: false,
-                distance: false,
-                timer: countdown,
-                rest: 30
-            }
-        },
-        {
-            id: 1,
-            name: 'Pushup',
-            icon: '',
-            settings: {
-                sets: 3,
-                reps: true,
-                distance: false,
-                timer: '',
-                rest: 30
-            }
-        },
-        {
-            id: 2,
-            name: 'Running',
-            icon: '',
-            settings: {
-                sets: 1,
-                reps: false,
-                distance: true,
-                timer: stopwatch,
-                rest: 30
-            }
+            title: {
+                type: String
+            },
+            description: {
+                type: String,
+                         
+            },
+            id: {
+                type: Number
+            },
+            name: {
+                type: String,
+                required: true
+            },
+            icon: {
+                type: String
+            },
+            settings: [
+                {
+                    sets: {
+                        type: Number,
+                        required: false
+                    },
+                    reps: {
+                        type: Number,
+                        required: false,
+                    },
+                    distance: {
+                        type: Number,
+                        required: false
+                    },
+                    timer: {
+                        type: String,
+                        required: false
+                    },
+                    rest: {
+                        type: Number,
+                        required: true
+                    }
+                }
+            ]
         }
+
     ],
     categories: [
         {
-            type: String
+            type: String,
+            required: true
         }
     ]
 })
