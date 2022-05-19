@@ -38,6 +38,12 @@ function Active(props) {
 
   // handles cycling of exercises
   function handleExerciseCycle(e) {
+    // reset input values
+    let inputEls = document.querySelectorAll("input");
+    for (let i = 0; i < inputEls.length; i++) {
+      inputEls[i].value = "";
+    }
+
     // uptick or downtick currentindex of activeExercise
     let index = parseInt(activeExercise.currentIndex);
 
@@ -50,6 +56,29 @@ function Active(props) {
       index++;
       setActiveExercise({ ...activeExercise, currentIndex: index });
     }
+  }
+
+  function handleChange(e) {
+    const type = e.target.getAttribute("data-type");
+    const value = e.target.value;
+    const index = parseInt(e.target.getAttribute(`data-setindex`));
+
+    // create copy of sessionData
+    const tempData = sessionData;
+    // get target path variable
+    const targetSet =
+      tempData.exercises[activeExercise.currentIndex].setData[index];
+    // push [type]: value
+    const newSetData = { ...targetSet, [type]: value };
+
+    // reassign set target to newSetData
+    tempData.exercises[activeExercise.currentIndex].setData[index] = newSetData;
+
+    // push to sessionData
+    setSessionData(tempData);
+
+    // log to console for testing
+    console.log(sessionData);
   }
 
   return (
@@ -68,38 +97,68 @@ function Active(props) {
       <div>
         <h3>{currentExercise.name}</h3>
         {sessionData.exercises[activeExercise.currentIndex].setData.map(
-          (key, index) => (
-            <div key={`sets-${index}`}>
-              <h4>Set {index + 1}:</h4>
-              {currentExercise.settings.weight && (
-                <>
-                  <label htmlFor={`set-${index}-weight`}>Weight: </label>
-                  <input type="number" name={`set-${index}-weight`} />
-                </>
-              )}
-              {currentExercise.settings.reps && (
-                <>
-                  <label htmlFor={`set-${index}-reps`}>Reps: </label>
-                  <input type="text" name={`set-${index}-reps`} />
-                </>
-              )}
-              {currentExercise.settings.distance && (
-                <>
-                  <label htmlFor={`set-${index}-distance`}>Distance: </label>
-                  <input
-                    type="number"
-                    step="0.01"
-                    name={`set-${index}-distance`}
-                  />
-                </>
-              )}
-              {currentExercise.settings.timer && (
-                <>
-                  <p>{currentExercise.settings.timer} clock will go here</p>
-                </>
-              )}
-            </div>
-          )
+          (key, index) => {
+            const setData =
+              sessionData.exercises[activeExercise.currentIndex].setData;
+            return (
+              <div key={`sets-${index}`}>
+                {/* TODO: BUG - when clicking arrows, input forms do not reset if exercises have same fields */}
+                {/* TODO: make it to where set data conditionally generates based on which set is selected */}
+                <h4>Set {index + 1}:</h4>
+                {currentExercise.settings.weight && (
+                  <>
+                    <label htmlFor={`set-${index}-weight`}>Weight: </label>
+                    <input
+                      type="number"
+                      name={`set-${index}-weight`}
+                      placeholder={
+                        setData[index].weight && `${setData[index].weight}`
+                      }
+                      data-type={"weight"}
+                      data-setindex={`${index}`}
+                      onChange={handleChange}
+                    />
+                  </>
+                )}
+                {currentExercise.settings.reps && (
+                  <>
+                    <label htmlFor={`set-${index}-reps`}>Reps: </label>
+                    <input
+                      type="number"
+                      name={`set-${index}-reps`}
+                      placeholder={
+                        setData[index].reps && `${setData[index].reps}`
+                      }
+                      data-type={"reps"}
+                      data-setindex={`${index}`}
+                      onChange={handleChange}
+                    />
+                  </>
+                )}
+                {currentExercise.settings.distance && (
+                  <>
+                    <label htmlFor={`set-${index}-distance`}>Distance: </label>
+                    <input
+                      type="number"
+                      step="0.01"
+                      name={`set-${index}-distance`}
+                      placeholder={
+                        setData[index].distance && `${setData[index].distance}`
+                      }
+                      data-setindex={`${index}`}
+                      data-type={"distance"}
+                      onChange={handleChange}
+                    />
+                  </>
+                )}
+                {currentExercise.settings.timer && (
+                  <>
+                    <p>{currentExercise.settings.timer} clock will go here</p>
+                  </>
+                )}
+              </div>
+            );
+          }
         )}
       </div>
 
@@ -122,6 +181,7 @@ function Active(props) {
         <button
           onClick={() => {
             console.log("Finished!");
+            console.log("Final sessionData: ", sessionData);
           }}
         >
           Finish!
