@@ -122,7 +122,7 @@ userLog: {
     workoutLog: [
         {
             date: 'Wed May 18 2022'
-            workouts: [
+            sessions: [
                 {
                     time: '12:12:15 GMT-0500 (Central Daylight Time)'
                     workout: {
@@ -139,7 +139,7 @@ userLog: {
         },
                 {
             date: 'Wed May 19 2022'
-            workouts: [
+            sessions: [
                 {
                     time: '12:12:15 GMT-0500 (Central Daylight Time)'
                     workout: {

@@ -15,8 +15,8 @@ function Active(props) {
   const currentExercise =
     activeWorkout.workout.exercises[activeExercise.currentIndex];
 
-  // create activeWorkoutData using existing activeWorkout object
-  const [activeWorkoutData, setActiveWorkoutData] = useState({
+  // create sessionData using existing activeWorkout object
+  const [sessionData, setSessionData] = useState({
     title: activeWorkout.workout.title,
     // map exercise array
     exercises: activeWorkout.workout.exercises.map((key, index) => ({
@@ -57,15 +57,53 @@ function Active(props) {
       <Link to={{ pathname: "/workouts/" }}>
         <button onClick={handleBackToWorkouts}>Back to My Workouts</button>
       </Link>
-      <h3>activeWorkoutData Object: </h3>
-      <p>{JSON.stringify(activeWorkoutData)}</p>
+      <h3>sessionData Object: </h3>
+      <p>{JSON.stringify(sessionData)}</p>
 
-      {/* TODO: use State to cycle through exercises */}
       <h3>Active Exercise Object:</h3>
       <p>{JSON.stringify(activeExercise)}</p>
       <p>{JSON.stringify(currentExercise)}</p>
 
-      {/* if currentIndex !== 0, show backtick option */}
+      {/* container for sessionData input */}
+      <div>
+        <h3>{currentExercise.name}</h3>
+        {sessionData.exercises[activeExercise.currentIndex].setData.map(
+          (key, index) => (
+            <div key={`sets-${index}`}>
+              <h4>Set {index + 1}:</h4>
+              {currentExercise.settings.weight && (
+                <>
+                  <label htmlFor={`set-${index}-weight`}>Weight: </label>
+                  <input type="number" name={`set-${index}-weight`} />
+                </>
+              )}
+              {currentExercise.settings.reps && (
+                <>
+                  <label htmlFor={`set-${index}-reps`}>Reps: </label>
+                  <input type="text" name={`set-${index}-reps`} />
+                </>
+              )}
+              {currentExercise.settings.distance && (
+                <>
+                  <label htmlFor={`set-${index}-distance`}>Distance: </label>
+                  <input
+                    type="number"
+                    step="0.01"
+                    name={`set-${index}-distance`}
+                  />
+                </>
+              )}
+              {currentExercise.settings.timer && (
+                <>
+                  <p>{currentExercise.settings.timer} clock will go here</p>
+                </>
+              )}
+            </div>
+          )
+        )}
+      </div>
+
+      {/* if currentIndex !== 0, show backtick button */}
       {activeExercise.currentIndex !== 0 ? (
         <button data-id="down" onClick={handleExerciseCycle}>
           {" "}
