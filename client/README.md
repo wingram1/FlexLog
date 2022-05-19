@@ -68,3 +68,93 @@ This section has moved here: [https://facebook.github.io/create-react-app/docs/d
 ### `npm run build` fails to minify
 
 This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+
+```js
+activeWorkoutData: {
+    title: 'my first workout',
+    exercises: [
+        {
+            name: 'Bench press',
+            setData: [
+                {
+                    setNum: 1,
+                    reps: 8,
+                }
+                {
+                    setNum: 2,
+                    reps: 8,
+                }
+                {
+                    setNum: 3,
+                    reps: 10
+                }
+            ]
+        },
+        {
+            name: 'Running',
+            setData: [
+                {
+                    setNum: 1,
+                    distance: 1.05,
+                    distanceUnit: 'mi'
+                    time: 10
+                }
+            ]
+        },
+        {
+            name: 'Planks',
+            setData: [
+                {
+                    setNum: 1,
+                    time: 60
+                },
+            ]
+        }
+    ]
+}
+
+
+```
+
+```js
+userLog: {
+    username: 'wingram1',
+    workoutLog: [
+        {
+            date: 'Wed May 18 2022'
+            workouts: [
+                {
+                    time: '12:12:15 GMT-0500 (Central Daylight Time)'
+                    workout: {
+                        // pushed activeWorkoutData object
+                    },
+                },
+                                {
+                    time: '21:12:15 GMT-0500 (Central Daylight Time)'
+                    workout: {
+                        // pushed activeWorkoutData object
+                    },
+                }
+            ]
+        },
+                {
+            date: 'Wed May 19 2022'
+            workouts: [
+                {
+                    time: '12:12:15 GMT-0500 (Central Daylight Time)'
+                    workout: {
+                        // pushed activeWorkoutData object
+                    },
+                },
+                                {
+                    time: '21:12:15 GMT-0500 (Central Daylight Time)'
+                    workout: {
+                        // pushed activeWorkoutData object
+                    },
+                }
+            ]
+        },
+
+    ]
+}
+```

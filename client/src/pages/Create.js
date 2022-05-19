@@ -47,6 +47,7 @@ function Create() {
       };
     });
 
+    // TODO: add 'createdBy' key to reference authenticated 'Me'
     const submittedFormData = {
       title: formData.title,
       description: formData.description,
