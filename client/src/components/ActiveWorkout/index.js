@@ -1,6 +1,7 @@
 import React, { useState, useContext } from "react";
 
 import { Link } from "react-router-dom";
+import Timer from "./subcomponents/Timer";
 
 function Active(props) {
   const { activeWorkout, setActiveWorkout } = props;
@@ -39,7 +40,7 @@ function Active(props) {
   // handles cycling of exercises
   function handleExerciseCycle(e) {
     // reset input values
-    let inputEls = document.querySelectorAll("input");
+    const inputEls = document.querySelectorAll("input");
     for (let i = 0; i < inputEls.length; i++) {
       inputEls[i].value = "";
     }
@@ -151,6 +152,7 @@ function Active(props) {
                 {currentExercise.settings.timer && (
                   <>
                     <p>{currentExercise.settings.timer} clock will go here</p>
+                    <Timer />
                   </>
                 )}
               </div>
