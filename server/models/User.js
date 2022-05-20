@@ -1,8 +1,15 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
-const UserSchema = new Schema({
+const userSchema = new Schema({
     username: {
         type: String,
+        required: true,
+        trim: true,
+    },
+    password: {
+        type: String,
+        unique: true,
+        required: true,
     },
     createdWorkouts: [
         {
@@ -12,12 +19,12 @@ const UserSchema = new Schema({
     ],
     savedWorkouts: [
         {
-            type:  Schema.Types.ObjectId,
+            type: Schema.Types.ObjectId,
             ref: 'Workout'
         }
     ]
-})
+});
 
-const User = model('User', UserSchema);
+const User = model('User', userSchema);
 
 module.exports = User;

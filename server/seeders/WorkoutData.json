@@ -1,0 +1,88 @@
+[
+    {
+        "title": "My First Workout",
+        "description": "Home workout with no equipment",
+        "categories": ["Home"],
+        "exercises": [
+            {
+                
+                "name": "Plank",
+                "icon": "",
+                "settings": {
+                    "sets": 1,
+                    "reps": false,
+                    "distance": false,
+                    "timer": "countdown",
+                    "rest": 30
+                }
+            },
+            {
+                
+                "name": "Pushup",
+                "icon": "",
+                "settings": {
+                    "sets": 3,
+                    "reps": true,
+                    "distance": false,
+                    "timer": "",
+                    "rest": 30
+                }
+            },
+            {
+                
+                "name": "Running",
+                "icon": "",
+                "settings": {
+                    "sets": 1,
+                    "reps": false,
+                    "distance": true,
+                    "timer": "stopwatch",
+                    "rest": 30
+                }
+            }
+        ]
+    },
+    {
+        "title": "My Second Workout",
+        "description": "Anywhere all the time",
+        "categories": ["The World"],
+        "exercises": [
+            {
+                
+                "name": "Run 5 Miles",
+                "icon": "",
+                "settings": {
+                    "sets": 1,
+                    "reps": false,
+                    "distance": true,
+                    "timer": "countdown",
+                    "rest": 30
+                }
+            },
+            {
+                
+                "name": "Squats",
+                "icon": "",
+                "settings": {
+                    "sets": 10,
+                    "reps": true,
+                    "distance": false,
+                    "timer": "",
+                    "rest": 30
+                }
+            },
+            {
+                
+                "name": "Running Again",
+                "icon": "",
+                "settings": {
+                    "sets": 1,
+                    "reps": false,
+                    "distance": true,
+                    "timer": "stopwatch",
+                    "rest": 30
+                }
+            }
+        ]
+    }
+]

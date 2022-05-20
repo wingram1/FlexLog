@@ -1,5 +1,12 @@
 ```js
 [
+  username: "TestDummy",
+  password: "abc123",
+  createdWorkouts: 1,
+  savedWorkouts: 2
+]
+
+[
   {
     title: "My First Workout",
     description: "Home workout with no equipment",
