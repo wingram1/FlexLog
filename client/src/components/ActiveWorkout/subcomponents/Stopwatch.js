@@ -32,7 +32,25 @@ const Stopwatch = (props) => {
 
       {/* render buttons */}
       <div className="buttons">
-        {!running && <button onClick={() => setRunning(true)}>Start</button>}
+        {!running && (
+          <>
+            <button
+              onClick={() => {
+                const type = "time";
+                // sets value equal to seconds
+                const value = Math.floor((time / 1000) % 60);
+                const index = setIndex;
+
+                console.log("data", { type: type, value: value, index: index });
+
+                pushToSession(type, value, index);
+              }}
+            >
+              Log Time
+            </button>
+            <button onClick={() => setRunning(true)}>Start</button>
+          </>
+        )}
         {running && <button onClick={() => setRunning(false)}>Pause</button>}
         <button
           onClick={() => {
@@ -41,20 +59,6 @@ const Stopwatch = (props) => {
           }}
         >
           Reset
-        </button>
-        <button
-          onClick={() => {
-            const type = "time";
-            // sets value equal to seconds
-            const value = Math.floor((time / 1000) % 60);
-            const index = setIndex;
-
-            console.log("data", { type: type, value: value, index: index });
-
-            pushToSession(type, value, index);
-          }}
-        >
-          Log Time
         </button>
       </div>
     </div>
