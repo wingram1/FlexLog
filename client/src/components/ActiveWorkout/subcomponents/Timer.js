@@ -2,12 +2,29 @@ import React, { useState } from "react";
 
 import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
-// TODO: pass duration in from user input on parent ActiveWorkout component
+function Timer(props) {
+  const {
+    timerDuration,
+    setTimerDuration,
+    setTimerDisplay,
+    pushToSession,
+    setIndex,
+  } = props;
 
-function Timer() {
-  const renderTime = ({ remainingTime }) => {
+  const [elapsedSeconds, setElapsedSeconds] = useState(0);
+
+  const renderTime = ({ remainingTime, elapsedTime }) => {
     if (remainingTime === 0) {
       return <div>Done!</div>;
+    }
+
+    // get integer of current elapsedTime
+    let currentSecond = parseInt(elapsedTime);
+
+    // set elapsed seconds to === currentSecond
+    if (elapsedSeconds !== currentSecond) {
+      console.log(elapsedSeconds);
+      setElapsedSeconds(currentSecond);
     }
 
     return (
@@ -34,7 +51,7 @@ function Timer() {
         <CountdownCircleTimer
           key={key}
           isPlaying={timerPlaying ? true : false}
-          duration={5}
+          duration={timerDuration}
           colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
           colorsTime={[7, 5, 2, 0]}
           onComplete={() => {
@@ -51,25 +68,43 @@ function Timer() {
         {timerPlaying ? (
           <></>
         ) : (
-          <button
-            // if restart button is clicked, set key to restart the timer
-            onClick={() => {
-              // resets duration
-              setKey((prevKey) => prevKey + 1);
-              //   toggle timer to play
-              //   setTimerPlaying(true);
-              setTimerDone(false);
-            }}
-          >
-            Reset Timer
-          </button>
+          <>
+            {/* button to log elapsedTime */}
+            <button
+              onClick={() => {
+                console.log(elapsedSeconds);
+                const type = "time";
+                const value = elapsedSeconds;
+                const index = setIndex;
+
+                // push data to sessionData
+                pushToSession(type, value, index);
+
+                // return to input screen
+                setTimerDisplay(false);
+              }}
+            >
+              Log Time
+            </button>
+            {/* button to reset timer */}
+            <button
+              // if restart button is clicked, set key to restart the timer
+              onClick={() => {
+                // resets duration
+                setKey((prevKey) => prevKey + 1);
+                //   toggle timer to play
+                //   setTimerPlaying(true);
+                setTimerDone(false);
+              }}
+            >
+              Reset Timer
+            </button>
+          </>
         )}
         {!timerDone ? (
           <button
             // if play/pause button is clicked, toggle timerPlaying
             onClick={() => {
-              console.log("push");
-
               setTimerPlaying(timerPlaying ? false : true);
               //   if timer is done, set timer to not done
               if (timerDone) {

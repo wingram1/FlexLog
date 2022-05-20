@@ -3,6 +3,9 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Timer from "./subcomponents/Timer";
 
+// TODO: add stopwatch
+// TODO: add set cycles (so only current set will render, but others will still be listed)
+
 function Active(props) {
   const { activeWorkout, setActiveWorkout } = props;
 
@@ -11,6 +14,10 @@ function Active(props) {
     currentIndex: 0,
     maxIndex: activeWorkout.workout.exercises.length - 1,
   });
+
+  // state settings for timer
+  const [timerDuration, setTimerDuration] = useState(30);
+  const [timerDisplay, setTimerDisplay] = useState(false);
 
   // sets current exercise shown
   const currentExercise =
@@ -60,10 +67,17 @@ function Active(props) {
   }
 
   function handleChange(e) {
+    // stage data for push to sessionData
     const type = e.target.getAttribute("data-type");
     const value = e.target.value;
     const index = parseInt(e.target.getAttribute(`data-setindex`));
 
+    // push
+    pushToSession(type, value, index);
+  }
+
+  // pushes data to sessionData that gets sent to the log
+  function pushToSession(type, value, index) {
     // create copy of sessionData
     const tempData = sessionData;
     // get target path variable
@@ -77,6 +91,23 @@ function Active(props) {
 
     // push to sessionData
     setSessionData(tempData);
+    console.log(sessionData);
+  }
+
+  function startTimer(e) {
+    // get value of corresponding input
+    let value = document.querySelector(
+      `#timer-input-${e.target.getAttribute("data-setindex")}`
+    ).value;
+
+    // if no value, set equal to previous timerDuration (or default which is 30)
+    if (!value) {
+      value = timerDuration;
+    }
+
+    setTimerDuration(value);
+    setTimerDisplay(true);
+    // console.log(timerDuration);
   }
 
   return (
@@ -151,8 +182,31 @@ function Active(props) {
                 {/* TODO: add timer */}
                 {currentExercise.settings.timer && (
                   <>
-                    <p>{currentExercise.settings.timer} clock will go here</p>
-                    <Timer />
+                    {!timerDisplay ? (
+                      <>
+                        <p>
+                          {currentExercise.settings.timer} clock will go here
+                        </p>
+                        <label htmlFor="timer-input">Set Time: </label>
+                        <input
+                          name="timer-input"
+                          id={`timer-input-${index}`}
+                          type="number"
+                          placeholder={`${timerDuration} (seconds)`}
+                        />
+                        <button data-setindex={`${index}`} onClick={startTimer}>
+                          Go!
+                        </button>
+                      </>
+                    ) : (
+                      <Timer
+                        pushToSession={pushToSession}
+                        timerDuration={timerDuration}
+                        setTimerDuration={timerDuration}
+                        setTimerDisplay={setTimerDisplay}
+                        setIndex={`${index}`}
+                      />
+                    )}
                   </>
                 )}
               </div>
