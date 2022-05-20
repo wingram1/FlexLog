@@ -1,12 +1,13 @@
 import React, { useState, useContext } from "react";
 
 import { Link } from "react-router-dom";
+import Stopwatch from "./subcomponents/Stopwatch";
 import Timer from "./subcomponents/Timer";
 
 // TODO: add stopwatch
 // TODO: add set cycles (so only current set will render, but others will still be listed)
 
-function Active(props) {
+function ActiveWorkout(props) {
   const { activeWorkout, setActiveWorkout } = props;
 
   // sets state for activeExercise
@@ -69,7 +70,7 @@ function Active(props) {
   function handleChange(e) {
     // stage data for push to sessionData
     const type = e.target.getAttribute("data-type");
-    const value = e.target.value;
+    const value = parseInt(e.target.value);
     const index = parseInt(e.target.getAttribute(`data-setindex`));
 
     // push
@@ -132,7 +133,10 @@ function Active(props) {
             return (
               <div key={`sets-${index}`}>
                 {/* TODO: make it to where set data conditionally generates based on which set is selected */}
+
                 <h4>Set {index + 1}:</h4>
+
+                {/* render weight input */}
                 {currentExercise.settings.weight && (
                   <>
                     <label htmlFor={`set-${index}-weight`}>Weight: </label>
@@ -148,6 +152,7 @@ function Active(props) {
                     />
                   </>
                 )}
+                {/* render reps input */}
                 {currentExercise.settings.reps && (
                   <>
                     <label htmlFor={`set-${index}-reps`}>Reps: </label>
@@ -163,6 +168,7 @@ function Active(props) {
                     />
                   </>
                 )}
+                {/* render distance input */}
                 {currentExercise.settings.distance && (
                   <>
                     <label htmlFor={`set-${index}-distance`}>Distance: </label>
@@ -179,8 +185,8 @@ function Active(props) {
                     />
                   </>
                 )}
-                {/* TODO: add timer */}
-                {currentExercise.settings.timer && (
+                {/* render countdown timer */}
+                {currentExercise.settings.timer === "countdown" && (
                   <>
                     {!timerDisplay ? (
                       <>
@@ -207,6 +213,16 @@ function Active(props) {
                         setIndex={`${index}`}
                       />
                     )}
+                  </>
+                )}
+                {/* render stopwatch timer */}
+                {currentExercise.settings.timer === "stopwatch" && (
+                  <>
+                    <p>Stopwatch should render</p>
+                    <Stopwatch
+                      pushToSession={pushToSession}
+                      setIndex={`${index}`}
+                    />
                   </>
                 )}
               </div>
@@ -246,4 +262,4 @@ function Active(props) {
   );
 }
 
-export default Active;
+export default ActiveWorkout;
