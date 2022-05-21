@@ -72,7 +72,7 @@ function Create() {
     myWorkouts.push(submittedFormData);
     localStorage.setItem("myWorkouts", JSON.stringify(myWorkouts));
 
-    // document.location.replace("/workouts");
+    document.location.replace("/workouts");
     // TODO: when database is up, check for online then push there
   };
 

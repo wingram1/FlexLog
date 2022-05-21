@@ -3,8 +3,8 @@ import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import Stopwatch from "./subcomponents/Stopwatch";
 import Timer from "./subcomponents/Timer";
+import { getToday, getFormattedTime } from "../../utils/dateTools";
 
-// TODO: add stopwatch
 // TODO: add set cycles (so only current set will render, but others will still be listed)
 
 function ActiveWorkout(props) {
@@ -27,6 +27,7 @@ function ActiveWorkout(props) {
   // create sessionData using existing activeWorkout object
   const [sessionData, setSessionData] = useState({
     title: activeWorkout.workout.title,
+    time: getFormattedTime(),
     // map exercise array
     exercises: activeWorkout.workout.exercises.map((key, index) => ({
       name: key.name,
@@ -109,6 +110,38 @@ function ActiveWorkout(props) {
     setTimerDuration(value);
     setTimerDisplay(true);
     // console.log(timerDuration);
+  }
+
+  function handleFinish() {
+    console.log("Finished!");
+    console.log("Final sessionData: ", sessionData);
+
+    var mySessions = JSON.parse(localStorage.getItem("mySessions"));
+
+    // push to localStorage
+    if (!localStorage.getItem("mySessions")) {
+      console.log("No sessions found! Creating localStorage database...");
+
+      mySessions = {};
+    }
+
+    const today = getToday();
+
+    // if no workouts today, add a new date
+    if (!mySessions[today]) {
+      mySessions = { ...mySessions, [today]: [] };
+      // else push to today's existing date
+    }
+
+    // push sessionData to today's sessions array
+    mySessions[today].push(sessionData);
+    console.log(mySessions);
+
+    // push to localStorage
+    localStorage.setItem("mySessions", JSON.stringify(mySessions));
+
+    // back to home
+    document.location.replace("/");
   }
 
   return (
@@ -247,14 +280,7 @@ function ActiveWorkout(props) {
           🢂
         </button>
       ) : (
-        <button
-          onClick={() => {
-            console.log("Finished!");
-            console.log("Final sessionData: ", sessionData);
-          }}
-        >
-          Finish!
-        </button>
+        <button onClick={handleFinish}>Finish!</button>
       )}
 
       {/* TODO: pass the completed exercise through to to the log context (global state kinda deal) */}
