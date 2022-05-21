@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useState } from "react";
+
+import UserLog from "../components/userlog2";
 
 function Home() {
   return (
@@ -10,7 +12,7 @@ function Home() {
       <a href="/workouts">
         <button>My Workouts</button>
       </a>
-      <div>Log component (calendar, etc.) here</div>
+      <UserLog />
     </div>
   );
 }

@@ -61,10 +61,6 @@ function Workouts() {
           <a href="/create">
             <button>Create a New Workout</button>
           </a>
-          {/* take to explore page; if not logged in, take to login page */}
-          <a href="/explore">
-            <button>Explore!</button>
-          </a>
           <div>
             <h2>My Workouts</h2>
             {/* map workouts inside here */}
