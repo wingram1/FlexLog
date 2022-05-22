@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 
+import { Container } from "@mantine/core";
+
 import ExerciseList from "../components/ExerciseList";
 
 function Create() {
