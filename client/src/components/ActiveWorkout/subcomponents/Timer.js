@@ -4,6 +4,7 @@ import { CountdownCircleTimer } from "react-countdown-circle-timer";
 
 function Timer(props) {
   const {
+    classes,
     timerDuration,
     setTimerDuration,
     setTimerDisplay,
@@ -23,15 +24,18 @@ function Timer(props) {
 
     // set elapsed seconds to === currentSecond
     if (elapsedSeconds !== currentSecond) {
-      console.log(elapsedSeconds);
+      // update elapsed seconds
       setElapsedSeconds(currentSecond);
     }
 
     return (
-      <div className="timer">
-        <div className="text">Remaining</div>
-        <div className="value">{remainingTime}</div>
-        <div className="text">seconds</div>
+      <div className={classes.timerInternal}>
+        <h4>
+          Remaining: <br />
+          <span className={classes.time}>{remainingTime}</span>
+          <br />
+          seconds
+        </h4>
       </div>
     );
   };
@@ -42,28 +46,28 @@ function Timer(props) {
   const [key, setKey] = useState(0);
 
   return (
-    <div className="App">
-      <h1>
-        Timer
-        <br />
-      </h1>
-      <div className="timer-wrapper">
-        <CountdownCircleTimer
-          key={key}
-          isPlaying={timerPlaying ? true : false}
-          duration={timerDuration}
-          colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-          colorsTime={[7, 5, 2, 0]}
-          onComplete={() => {
-            console.log("complete");
-            setTimerPlaying(false);
-            setTimerDone(true);
-          }}
-        >
-          {renderTime}
-        </CountdownCircleTimer>
+    <>
+      <div className={classes.timerContainer}>
+        <div className={classes.timerWrapper}>
+          <CountdownCircleTimer
+            key={key}
+            isPlaying={timerPlaying ? true : false}
+            duration={timerDuration}
+            colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
+            colorsTime={[7, 5, 2, 0]}
+            size={230}
+            style={{ margin: "0 auto" }}
+            onComplete={() => {
+              console.log("complete");
+              setTimerPlaying(false);
+              setTimerDone(true);
+            }}
+          >
+            {renderTime}
+          </CountdownCircleTimer>
+        </div>
       </div>
-      <div className="button-wrapper">
+      <div className={classes.timerButtons}>
         {/* if timer is not playing, render restart button */}
         {timerPlaying ? (
           <></>
@@ -118,7 +122,7 @@ function Timer(props) {
           <></>
         )}
       </div>
-    </div>
+    </>
   );
 }
 

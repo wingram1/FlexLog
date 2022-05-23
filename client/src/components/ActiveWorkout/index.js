@@ -66,6 +66,10 @@ function ActiveWorkout(props) {
   }
 
   function handleSetCycle(e) {
+    if (timerDisplay) {
+      setTimerDisplay(false);
+    }
+
     // reset input values
     const inputEls = document.querySelectorAll("input");
     for (let i = 0; i < inputEls.length; i++) {
@@ -80,13 +84,13 @@ function ActiveWorkout(props) {
     if (direction === "down") {
       // if above currentExercise's set 1, go back a set
       if (currentSetIndex > 0) {
-        console.log("down 1 set");
+        // update set
         setCurrentSet({
           ...currentSet,
           currentIndex: currentSetIndex - 1,
         });
       } else {
-        // else go back an exercise
+        // else go back an exercise and set currentSetIndex to the maxSetIndex
         const maxIndexLastSet =
           activeWorkout.workout.exercises[activeExercise.currentIndex - 1]
             .settings.sets - 1;
@@ -236,8 +240,9 @@ function ActiveWorkout(props) {
       {/* container for sessionData input */}
       <div className={classes.setContainer}>
         <div className={classes.setHeader}>
+          <h3>{currentExercise.name}:</h3>
           <h3>
-            {currentExercise.name} : Set {setIndex + 1} of {maxSetIndex + 1}
+            Set {setIndex + 1} of {maxSetIndex + 1}
           </h3>
         </div>
 
@@ -293,8 +298,7 @@ function ActiveWorkout(props) {
         {currentExercise.settings.timer === "countdown" && (
           <>
             {!timerDisplay ? (
-              <>
-                <p>{currentExercise.settings.timer} clock will go here</p>
+              <div className={classes.timerForm}>
                 <label htmlFor="timer-input">Set Time: </label>
                 <input
                   name="timer-input"
@@ -305,10 +309,11 @@ function ActiveWorkout(props) {
                 <button data-setindex={`${setIndex}`} onClick={startTimer}>
                   Go!
                 </button>
-              </>
+              </div>
             ) : (
               <Timer
                 classes={classes}
+                handleSetCycle={handleSetCycle}
                 pushToSession={pushToSession}
                 timerDuration={timerDuration}
                 setTimerDuration={timerDuration}
@@ -321,42 +326,41 @@ function ActiveWorkout(props) {
         {/* render stopwatch timer */}
         {currentExercise.settings.timer === "stopwatch" && (
           <>
-            <p>Stopwatch should render</p>
             <Stopwatch
               classes={classes}
+              handleSetCycle={handleSetCycle}
               pushToSession={pushToSession}
               setIndex={`${setIndex}`}
             />
           </>
         )}
-
-        <div className={classes.setNav}>
-          <div className={classes.back}>
-            {/* if first set in workout, don't render back button */}
-            {isFirstInWorkout ? (
-              <Link to={{ pathname: "/workouts/" }}>
-                <button onClick={handleBackToWorkouts}>
-                  Back to My Workouts
-                </button>
-              </Link>
-            ) : (
-              <button data-id="down" onClick={handleSetCycle}>
-                {" "}
-                🢀
+      </div>
+      <div className={classes.setNav}>
+        <div className={classes.back}>
+          {/* if first set in workout, don't render back button */}
+          {isFirstInWorkout ? (
+            <Link to={{ pathname: "/workouts/" }}>
+              <button onClick={handleBackToWorkouts}>
+                Back to My Workouts
               </button>
-            )}
-          </div>
+            </Link>
+          ) : (
+            <button data-id="down" onClick={handleSetCycle}>
+              {" "}
+              🢀
+            </button>
+          )}
+        </div>
 
-          <div className={classes.fwd}>
-            {/* if last set in workout, render finish instead of forward */}
-            {isLastInWorkout ? (
-              <button onClick={handleFinish}>Finish!</button>
-            ) : (
-              <button data-id="up" onClick={handleSetCycle}>
-                🢂
-              </button>
-            )}
-          </div>
+        <div className={classes.fwd}>
+          {/* if last set in workout, render finish instead of forward */}
+          {isLastInWorkout ? (
+            <button onClick={handleFinish}>Finish!</button>
+          ) : (
+            <button data-id="up" onClick={handleSetCycle}>
+              🢂
+            </button>
+          )}
         </div>
       </div>
     </div>
