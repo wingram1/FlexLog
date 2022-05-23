@@ -1,9 +1,14 @@
 import React, { useState } from "react";
 
+import { Button, Switch } from "@mantine/core";
+import useStyles from "./ExerciseList.styles.js";
+
 import ExerciseOptions from "./subcomponents/ExerciseOptions";
 
 function ExerciseList(props) {
-  const { exerciseData, setExerciseData } = props;
+  const { classes } = useStyles();
+
+  const { formData, exerciseData, setExerciseData } = props;
 
   const [exerciseCounter, setExerciseCounter] = useState(1);
 
@@ -71,8 +76,10 @@ function ExerciseList(props) {
 
   const removeExercise = function (e) {
     e.preventDefault();
-    // get index from remove button's data-id
-    let i = e.target.getAttribute("data-id");
+
+    // get index from remove button's data-id (compensated for Mantine's Button component with two parentNodes)
+    let i = e.target.parentNode.parentNode.getAttribute("data-id");
+
     // create temp object to delete the key
     let tempObj = exerciseData;
 
@@ -84,100 +91,143 @@ function ExerciseList(props) {
   };
 
   return (
-    <div id="exercise-list">
-      <h3>Exercises</h3>
+    <div id="exercise-list" className={classes.listContainer}>
+      <h3>Exercises {formData.title && <span>for {formData.title}</span>}</h3>
       {/* container for individual exercise */}
       {Object.keys(exerciseData).map((exercise, i) => (
         <div
           data-id={`exercise-${exerciseData[exercise].id}`}
           key={`container-${exerciseData[exercise].id}`}
+          className={classes.exerciseContainer}
         >
-          <label htmlFor="exercises">
-            Choose an exercise (or input your own!)
-          </label>
-          <input
-            list={`list-${exercise}`}
-            name="name"
-            data-id={exerciseData[exercise].id}
-            key={`name-${exerciseData[exercise].id}`}
-            onChange={handleChange}
-          ></input>
-          <ExerciseOptions exList={exercise} />
+          <h3>
+            {exerciseData[exercise].name
+              ? exerciseData[exercise].name
+              : `Exercise ${parseInt(exercise) + 1}`}
+          </h3>
+          <div className={classes.inputContainer}>
+            <label className={classes.label} htmlFor="exercises">
+              Choose an exercise (or input your own!)
+            </label>
+            <input
+              list={`list-${exercise}`}
+              name="name"
+              className={classes.input}
+              data-id={exerciseData[exercise].id}
+              key={`name-${exerciseData[exercise].id}`}
+              onChange={handleChange}
+            ></input>
+            <ExerciseOptions exList={exercise} />
+          </div>
 
           {/* Exercise Types */}
           <br />
-          <label htmlFor="sets">Number of Sets:</label>
-          <input
-            name="sets"
-            type="number"
-            min="1"
-            placeholder="1"
-            data-id={exerciseData[exercise].id}
-            key={`sets-${exerciseData[exercise].id}`}
-            onChange={handleSettingChange}
-          />
+          <div className={classes.inputContainer}>
+            <label
+              className={classes.label}
+              htmlFor="sets"
+              style={{ "font-weight": 500 }}
+            >
+              Number of Sets:
+            </label>
+            <input
+              name="sets"
+              type="number"
+              className={classes.input}
+              min="1"
+              placeholder="1"
+              data-id={exerciseData[exercise].id}
+              key={`sets-${exerciseData[exercise].id}`}
+              onChange={handleSettingChange}
+            />
+          </div>
           <br />
-          <label htmlFor="reps">Reps:</label>
-          <input
-            name="reps"
-            type="checkbox"
-            data-id={exerciseData[exercise].id}
-            key={`reps-${exerciseData[exercise].id}`}
-            onChange={handleSettingChange}
-          />
-          {/* TODO: add weight setting */}
-          <br />
-          <label htmlFor="weight">Weight:</label>
-          <input
-            name="weight"
-            type="checkbox"
-            data-id={exerciseData[exercise].id}
-            key={`weight-${exerciseData[exercise].id}`}
-            onChange={handleSettingChange}
-          />
-          <br />
-          <label htmlFor="distance">Distance:</label>
-          <input
-            name="distance"
-            type="checkbox"
-            data-id={exerciseData[exercise].id}
-            key={`distance-${exerciseData[exercise].id}`}
-            onChange={handleSettingChange}
-          />
-          <br />
-          <label htmlFor="timer">Timer:</label>
-          <select
-            name="timer"
-            data-id={exerciseData[exercise].id}
-            key={`timer-${exerciseData[exercise].id}`}
-            onChange={handleSettingChange}
-          >
-            <option value="">None</option>
-            <option value="countdown">Countdown</option>
-            <option value="stopwatch">Stopwatch</option>
-          </select>
-          <br />
-          <label htmlFor="rest">Rest Interval (in seconds)</label>
-          <input
-            type="number"
-            placeholder="30"
-            min="0"
-            data-id={exerciseData[exercise].id}
-            key={`rest-${exerciseData[exercise].id}`}
-            onChange={handleSettingChange}
-          />
+          <strong>
+            <p>Additional Settings:</p>
+          </strong>
+          <div className={classes.settings}>
+            <label className={classes.label} htmlFor="reps">
+              Reps:
+            </label>
+            <Switch
+              name="reps"
+              data-id={exerciseData[exercise].id}
+              key={`reps-${exerciseData[exercise].id}`}
+              onChange={handleSettingChange}
+            />
+            {/* TODO: add weight setting */}
+            <br />
+            <label className={classes.label} htmlFor="weight">
+              Weight:
+            </label>
+            <Switch
+              name="weight"
+              data-id={exerciseData[exercise].id}
+              key={`weight-${exerciseData[exercise].id}`}
+              onChange={handleSettingChange}
+            />
+            <br />
+            <label className={classes.label} htmlFor="distance">
+              Distance:
+            </label>
+            <Switch
+              name="distance"
+              type="checkbox"
+              data-id={exerciseData[exercise].id}
+              key={`distance-${exerciseData[exercise].id}`}
+              onChange={handleSettingChange}
+            />
+            <br />
+            <label className={classes.label} htmlFor="timer">
+              Timer:
+            </label>
+            <select
+              name="timer"
+              className={classes.select}
+              data-id={exerciseData[exercise].id}
+              key={`timer-${exerciseData[exercise].id}`}
+              onChange={handleSettingChange}
+            >
+              <option value="">None</option>
+              <option value="countdown">Countdown</option>
+              <option value="stopwatch">Stopwatch</option>
+            </select>
+            <br />
+          </div>
+          <div className={classes.inputContainer}>
+            <label className={classes.label} htmlFor="rest">
+              Rest Interval (in seconds)
+            </label>
+            <input
+              className={classes.input}
+              type="number"
+              placeholder="30"
+              min="0"
+              data-id={exerciseData[exercise].id}
+              key={`rest-${exerciseData[exercise].id}`}
+              onChange={handleSettingChange}
+            />
+          </div>
 
           {/* TODO: icon select (return string of local link) */}
 
           <br />
-          <button onClick={removeExercise} data-id={exerciseData[exercise].id}>
-            Remove
-          </button>
+          <div className={classes.removeButton}>
+            <Button
+              color="red"
+              onClick={removeExercise}
+              data-id={exerciseData[exercise].id}
+            >
+              Remove
+            </Button>
+          </div>
         </div>
       ))}
 
       {/* button to add another individual exercise node */}
-      <button onClick={addExercise}>Add another exercise</button>
+      <Button color="gray" onClick={addExercise}>
+        Add another exercise
+      </Button>
     </div>
   );
 }
