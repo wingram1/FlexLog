@@ -70,17 +70,17 @@ function Workouts() {
     <>
       {!activeWorkout.active ? (
         <div className={classes.workoutsWrapper}>
-          <div className={classes.workoutsHeader}>
-            <h2>My Workouts</h2>
-            <a href="/create">
-              <Button color="green" radius="md" size="md">
-                Create
-              </Button>
-            </a>
-          </div>
-
           {/* map workouts inside here */}
           <div className={classes.workoutsContainer}>
+            {" "}
+            <div className={classes.workoutsHeader}>
+              <h2>My Workouts</h2>
+              <a href="/create">
+                <Button color="green" radius="md" size="md">
+                  Create
+                </Button>
+              </a>
+            </div>
             {workoutData.map((key, i) => (
               <div className={classes.workoutCard}>
                 <div className={classes.cardTitle}>
@@ -125,11 +125,11 @@ function Workouts() {
                       ))}
                     </ul>
                     <div className={classes.workoutStart}>
-                      {/* <Link to={{ pathname: "/workouts/active" }}> */}
-                      <Button data-id={i} onClick={startWorkout}>
-                        Start
-                      </Button>
-                      {/* </Link> */}
+                      <Link to={{ pathname: "/workouts/active" }}>
+                        <Button data-id={i} onClick={startWorkout}>
+                          Start
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 </div>
