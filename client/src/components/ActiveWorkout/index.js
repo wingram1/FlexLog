@@ -1,6 +1,9 @@
 import React, { useState, useContext } from "react";
-
 import { Link } from "react-router-dom";
+
+import { Button } from '@mantine/core';
+import useStyles from "./ActiveWorkout.styles";
+
 import Stopwatch from "./subcomponents/Stopwatch";
 import Timer from "./subcomponents/Timer";
 import { getToday, getFormattedTime } from "../../utils/dateTools";
@@ -8,7 +11,14 @@ import { getToday, getFormattedTime } from "../../utils/dateTools";
 // TODO: add set cycles (so only current set will render, but others will still be listed)
 
 function ActiveWorkout(props) {
+  const { classes } = useStyles();
+
   const { activeWorkout, setActiveWorkout } = props;
+
+  if (!activeWorkout) {
+    console.log("No activeWorkout found! Returning to My Workouts...");
+    document.location.replace("/workouts");
+  }
 
   // sets state for activeExercise
   const [activeExercise, setActiveExercise] = useState({

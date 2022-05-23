@@ -9,6 +9,7 @@ function Header() {
       <a href="/">
         <h1>FlexLog</h1>
       </a>
+      <div className={classes.spacer}></div>
       <a href="/login" className={classes.links}>
         <p>Log In/Sign Up</p>
       </a>

@@ -100,6 +100,11 @@ function ExerciseList(props) {
           key={`container-${exerciseData[exercise].id}`}
           className={classes.exerciseContainer}
         >
+          <h3>
+            {exerciseData[exercise].name
+              ? exerciseData[exercise].name
+              : `Exercise ${parseInt(exercise) + 1}`}
+          </h3>
           <div className={classes.inputContainer}>
             <label className={classes.label} htmlFor="exercises">
               Choose an exercise (or input your own!)

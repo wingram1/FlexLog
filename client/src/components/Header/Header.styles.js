@@ -8,16 +8,17 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "space-evenly",
     alignItems: "center",
     padding: "0 15px 0 15px",
   },
-  title: {
-
-  },
+  title: {},
   links: {
-      textDecoration: 'inherit'
-  }
+    textDecoration: "inherit",
+  },
+  spacer: {
+    // TODO: add MQ to make invisible when <~960px
+  },
 }));
 
 export default useStyles;
