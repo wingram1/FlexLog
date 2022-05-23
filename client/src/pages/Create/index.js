@@ -1,16 +1,11 @@
 import React, { useState, useEffect } from "react";
 
 import {
-  Autocomplete,
   Button,
   Container,
-  Form,
   Input,
   InputWrapper,
   MultiSelect,
-  NumberInput,
-  Slider,
-  Switch,
   Textarea,
 } from "@mantine/core";
 import useStyles from "./Create.styles";
@@ -64,7 +59,9 @@ function Create() {
 
   const handleChange = function (e) {
     //   get name attribute and value from target
-    const { name, value } = e.target.value;
+    const { name, value } = e.target;
+
+    console.log(name, value)
 
     // update formData
     setFormData({ ...formData, [name]: value });
@@ -133,6 +130,7 @@ function Create() {
               data={categoryOptions}
               name="categories"
               id="categorySelect"
+              placeholder="Choose up to 3"
               className={classes.categories}
               clearable
               maxSelectedValues={3}
@@ -149,6 +147,7 @@ function Create() {
             onChange={handleChange}
           ></Textarea>
           <ExerciseList
+            formData={formData}
             exerciseData={exerciseData}
             setExerciseData={setExerciseData}
           />

@@ -9,7 +9,7 @@ const useStyles = createStyles((theme) => ({
     border: `1px ${theme.colors.gray[5]} solid`,
     borderRadius: 8,
     margin: "10px 0 10px 0",
-    padding: "5px 10px 10px 10px",
+    padding: "5px 20px 10px 20px",
   },
   title: {
     width: "75%",
