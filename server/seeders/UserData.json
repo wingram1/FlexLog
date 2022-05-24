@@ -1,13 +1,15 @@
 [
     {
         "username": "BigBuffy",
+        "email": "Buff@email.com",
         "password": "abc123",
         "createdWorkouts": [],
         "savedWorkouts": []
     },
     {
         "username": "LegDayEveryDay",
-        "password": "Celulite2.0",
+        "email": "Legman@email.com",
+        "password": "Plates123",
         "createdWorkouts": [],
         "savedWorkouts": []
     }
