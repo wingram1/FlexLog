@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
-import { Button } from '@mantine/core';
+import { Button } from "@mantine/core";
 import useStyles from "./ActiveWorkout.styles";
 
 import Stopwatch from "./subcomponents/Stopwatch";
@@ -26,13 +26,22 @@ function ActiveWorkout(props) {
     maxIndex: activeWorkout.workout.exercises.length - 1,
   });
 
-  // state settings for timer
-  const [timerDuration, setTimerDuration] = useState(30);
-  const [timerDisplay, setTimerDisplay] = useState(false);
-
   // sets current exercise shown
   const currentExercise =
     activeWorkout.workout.exercises[activeExercise.currentIndex];
+
+  const [currentSet, setCurrentSet] = useState({
+    currentIndex: 0,
+    maxIndex: currentExercise.settings.sets - 1,
+  });
+
+  // set up variables for less cluttered render code
+  const setIndex = currentSet.currentIndex;
+  const maxSetIndex = currentSet.maxIndex;
+
+  // state settings for timer
+  const [timerDuration, setTimerDuration] = useState(30);
+  const [timerDisplay, setTimerDisplay] = useState(false);
 
   // create sessionData using existing activeWorkout object
   const [sessionData, setSessionData] = useState({
@@ -56,25 +65,78 @@ function ActiveWorkout(props) {
     setActiveWorkout(false, {});
   }
 
-  // handles cycling of exercises
-  function handleExerciseCycle(e) {
+  function handleSetCycle(e) {
+    if (timerDisplay) {
+      setTimerDisplay(false);
+    }
+
     // reset input values
     const inputEls = document.querySelectorAll("input");
     for (let i = 0; i < inputEls.length; i++) {
       inputEls[i].value = "";
     }
 
-    // uptick or downtick currentindex of activeExercise
-    let index = parseInt(activeExercise.currentIndex);
+    const direction = e.target.getAttribute("data-id");
 
-    if (e.target.getAttribute("data-id") === "down") {
-      // go back
-      index--;
-      setActiveExercise({ ...activeExercise, currentIndex: index });
+    let currentSetIndex = currentSet.currentIndex;
+
+    // go back
+    if (direction === "down") {
+      // if above currentExercise's set 1, go back a set
+      if (currentSetIndex > 0) {
+        // update set
+        setCurrentSet({
+          ...currentSet,
+          currentIndex: currentSetIndex - 1,
+        });
+      } else {
+        // else go back an exercise and set currentSetIndex to the maxSetIndex
+        const maxIndexLastSet =
+          activeWorkout.workout.exercises[activeExercise.currentIndex - 1]
+            .settings.sets - 1;
+
+        setCurrentSet({
+          currentIndex: maxIndexLastSet,
+          maxIndex: maxIndexLastSet,
+        });
+        handleExerciseCycle(direction);
+      }
     } else {
       // go forward
-      index++;
-      setActiveExercise({ ...activeExercise, currentIndex: index });
+      // check if the set is the last in the exercise; if not, just change set
+      if (currentSetIndex !== maxSetIndex) {
+        setCurrentSet({
+          ...currentSet,
+          currentIndex: currentSetIndex + 1,
+        });
+        // if maxSetIndex, reset currentSet Index and run exercise code
+      } else {
+        setCurrentSet({
+          currentIndex: 0,
+          maxIndex:
+            activeWorkout.workout.exercises[activeExercise.currentIndex + 1]
+              .settings.sets - 1,
+        });
+        handleExerciseCycle(direction);
+      }
+    }
+  }
+
+  // handles cycling of exercises
+  function handleExerciseCycle(direction) {
+    // if currentSetIndex !== maxSetIndex, reset currentSet Index and run exercise code
+
+    // uptick or downtick currentindex of activeExercise
+    let exerciseIndex = parseInt(activeExercise.currentIndex);
+
+    if (direction === "down") {
+      // go back
+      exerciseIndex--;
+      setActiveExercise({ ...activeExercise, currentIndex: exerciseIndex });
+    } else {
+      // go forward
+      exerciseIndex++;
+      setActiveExercise({ ...activeExercise, currentIndex: exerciseIndex });
     }
   }
 
@@ -154,147 +216,154 @@ function ActiveWorkout(props) {
     document.location.replace("/");
   }
 
-  return (
-    <>
-      <Link to={{ pathname: "/workouts/" }}>
-        <button onClick={handleBackToWorkouts}>Back to My Workouts</button>
-      </Link>
-      <h3>sessionData Object: </h3>
-      <p>{JSON.stringify(sessionData)}</p>
+  const setData = sessionData.exercises[activeExercise.currentIndex].setData;
 
-      <h3>Active Exercise Object:</h3>
-      <p>{JSON.stringify(activeExercise)}</p>
-      <p>{JSON.stringify(currentExercise)}</p>
+  // need this boolean for back button rendering
+  let isFirstInWorkout = false;
+  let isLastInWorkout = false;
+
+  if (setIndex === 0 && activeExercise.currentIndex === 0) {
+    isFirstInWorkout = true;
+  }
+
+  if (
+    setIndex === currentSet.maxIndex &&
+    activeExercise.currentIndex === activeExercise.maxIndex
+  ) {
+    isLastInWorkout = true;
+  }
+
+  return (
+    <div className={classes.wrapper}>
+      <h1>{activeWorkout.workout.title}</h1>
 
       {/* container for sessionData input */}
-      <div>
-        <h3>{currentExercise.name}</h3>
-        {sessionData.exercises[activeExercise.currentIndex].setData.map(
-          (key, index) => {
-            const setData =
-              sessionData.exercises[activeExercise.currentIndex].setData;
-            return (
-              <div key={`sets-${index}`}>
-                {/* TODO: make it to where set data conditionally generates based on which set is selected */}
+      <div className={classes.setContainer}>
+        <div className={classes.setHeader}>
+          <h3>{currentExercise.name}:</h3>
+          <h3>
+            Set {setIndex + 1} of {maxSetIndex + 1}
+          </h3>
+        </div>
 
-                <h4>Set {index + 1}:</h4>
-
-                {/* render weight input */}
-                {currentExercise.settings.weight && (
-                  <>
-                    <label htmlFor={`set-${index}-weight`}>Weight: </label>
-                    <input
-                      type="number"
-                      name={`set-${index}-weight`}
-                      placeholder={
-                        setData[index].weight && `${setData[index].weight}`
-                      }
-                      data-type={"weight"}
-                      data-setindex={`${index}`}
-                      onChange={handleChange}
-                    />
-                  </>
-                )}
-                {/* render reps input */}
-                {currentExercise.settings.reps && (
-                  <>
-                    <label htmlFor={`set-${index}-reps`}>Reps: </label>
-                    <input
-                      type="number"
-                      name={`set-${index}-reps`}
-                      placeholder={
-                        setData[index].reps && `${setData[index].reps}`
-                      }
-                      data-type={"reps"}
-                      data-setindex={`${index}`}
-                      onChange={handleChange}
-                    />
-                  </>
-                )}
-                {/* render distance input */}
-                {currentExercise.settings.distance && (
-                  <>
-                    <label htmlFor={`set-${index}-distance`}>Distance: </label>
-                    <input
-                      type="number"
-                      step="0.01"
-                      name={`set-${index}-distance`}
-                      placeholder={
-                        setData[index].distance && `${setData[index].distance}`
-                      }
-                      data-setindex={`${index}`}
-                      data-type={"distance"}
-                      onChange={handleChange}
-                    />
-                  </>
-                )}
-                {/* render countdown timer */}
-                {currentExercise.settings.timer === "countdown" && (
-                  <>
-                    {!timerDisplay ? (
-                      <>
-                        <p>
-                          {currentExercise.settings.timer} clock will go here
-                        </p>
-                        <label htmlFor="timer-input">Set Time: </label>
-                        <input
-                          name="timer-input"
-                          id={`timer-input-${index}`}
-                          type="number"
-                          placeholder={`${timerDuration} (seconds)`}
-                        />
-                        <button data-setindex={`${index}`} onClick={startTimer}>
-                          Go!
-                        </button>
-                      </>
-                    ) : (
-                      <Timer
-                        pushToSession={pushToSession}
-                        timerDuration={timerDuration}
-                        setTimerDuration={timerDuration}
-                        setTimerDisplay={setTimerDisplay}
-                        setIndex={`${index}`}
-                      />
-                    )}
-                  </>
-                )}
-                {/* render stopwatch timer */}
-                {currentExercise.settings.timer === "stopwatch" && (
-                  <>
-                    <p>Stopwatch should render</p>
-                    <Stopwatch
-                      pushToSession={pushToSession}
-                      setIndex={`${index}`}
-                    />
-                  </>
-                )}
+        {currentExercise.settings.weight && (
+          <>
+            <label htmlFor={`set-${setIndex}-weight`}>Weight: </label>
+            <input
+              type="number"
+              name={`set-${setIndex}-weight`}
+              placeholder={
+                setData[setIndex].weight && `${setData[setIndex].weight}`
+              }
+              data-type={"weight"}
+              data-setindex={`${setIndex}`}
+              onChange={handleChange}
+            />
+          </>
+        )}
+        {/* render reps input */}
+        {currentExercise.settings.reps && (
+          <>
+            <label htmlFor={`set-${setIndex}-reps`}>Reps: </label>
+            <input
+              type="number"
+              name={`set-${setIndex}-reps`}
+              placeholder={
+                setData[setIndex].reps && `${setData[setIndex].reps}`
+              }
+              data-type={"reps"}
+              data-setindex={`${setIndex}`}
+              onChange={handleChange}
+            />
+          </>
+        )}
+        {/* render distance input */}
+        {currentExercise.settings.distance && (
+          <>
+            <label htmlFor={`set-${setIndex}-distance`}>Distance: </label>
+            <input
+              type="number"
+              step="0.01"
+              name={`set-${setIndex}-distance`}
+              placeholder={
+                setData[setIndex].distance && `${setData[setIndex].distance}`
+              }
+              data-setindex={`${setIndex}`}
+              data-type={"distance"}
+              onChange={handleChange}
+            />
+          </>
+        )}
+        {/* render countdown timer */}
+        {currentExercise.settings.timer === "countdown" && (
+          <>
+            {!timerDisplay ? (
+              <div className={classes.timerForm}>
+                <label htmlFor="timer-input">Set Time: </label>
+                <input
+                  name="timer-input"
+                  id={`timer-input-${setIndex}`}
+                  type="number"
+                  placeholder={`${timerDuration} (seconds)`}
+                />
+                <button data-setindex={`${setIndex}`} onClick={startTimer}>
+                  Go!
+                </button>
               </div>
-            );
-          }
+            ) : (
+              <Timer
+                classes={classes}
+                handleSetCycle={handleSetCycle}
+                pushToSession={pushToSession}
+                timerDuration={timerDuration}
+                setTimerDuration={timerDuration}
+                setTimerDisplay={setTimerDisplay}
+                setIndex={`${setIndex}`}
+              />
+            )}
+          </>
+        )}
+        {/* render stopwatch timer */}
+        {currentExercise.settings.timer === "stopwatch" && (
+          <>
+            <Stopwatch
+              classes={classes}
+              handleSetCycle={handleSetCycle}
+              pushToSession={pushToSession}
+              setIndex={`${setIndex}`}
+            />
+          </>
         )}
       </div>
+      <div className={classes.setNav}>
+        <div className={classes.back}>
+          {/* if first set in workout, don't render back button */}
+          {isFirstInWorkout ? (
+            <Link to={{ pathname: "/workouts/" }}>
+              <button onClick={handleBackToWorkouts}>
+                Back to My Workouts
+              </button>
+            </Link>
+          ) : (
+            <button data-id="down" onClick={handleSetCycle}>
+              {" "}
+              🢀
+            </button>
+          )}
+        </div>
 
-      {/* if currentIndex !== 0, show backtick button */}
-      {activeExercise.currentIndex !== 0 ? (
-        <button data-id="down" onClick={handleExerciseCycle}>
-          {" "}
-          🢀
-        </button>
-      ) : (
-        <></>
-      )}
-
-      {/* if currentIndex === maxIndex, change uptick to finish */}
-      {activeExercise.currentIndex !== activeExercise.maxIndex ? (
-        <button data-id="up" onClick={handleExerciseCycle}>
-          🢂
-        </button>
-      ) : (
-        <button onClick={handleFinish}>Finish!</button>
-      )}
-
-      {/* TODO: pass the completed exercise through to to the log context (global state kinda deal) */}
-    </>
+        <div className={classes.fwd}>
+          {/* if last set in workout, render finish instead of forward */}
+          {isLastInWorkout ? (
+            <button onClick={handleFinish}>Finish!</button>
+          ) : (
+            <button data-id="up" onClick={handleSetCycle}>
+              🢂
+            </button>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 

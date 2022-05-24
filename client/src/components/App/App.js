@@ -17,6 +17,7 @@ import Home from "../../pages/Home";
 import Workouts from "../../pages/Workouts";
 import Create from "../../pages/Create";
 import ActiveWorkout from "../ActiveWorkout";
+import Login from "../../pages/Login";
 
 function App() {
   // import classes from styles
@@ -29,7 +30,7 @@ function App() {
         {/* Add favicon link here */}
       </MetaTags>
       <GlobalStyles />
-      
+
       <div className={classes.wrapper}>
         <Header />
         <div className={classes.content}>
@@ -37,6 +38,7 @@ function App() {
             <Route exact path="/" component={Home} />
             <Route exact path="/create" component={Create} />
             <Route exact path="/workouts" component={Workouts} />
+            <Route exact path="/login" component={Login} />
             <Route path="/workouts/active" component={ActiveWorkout} />
             <Route exact path="*">
               <p>This doesn't exist! (yet...?)</p>

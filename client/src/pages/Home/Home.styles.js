@@ -8,16 +8,57 @@ const useStyles = createStyles((theme) => ({
     flexDirection: "column",
     // alignItems: "center",
   },
-  buttons: {
+  welcome: {
     width: "100%",
-    height: "20%",
+    justifyContent: "center",
+    textAlign: "center",
+    h2: {
+      margin: "20px 0 10px 0",
+    },
+  },
+  containerRowCol: {
+    width: "100%",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "space-around",
+  },
+  buttons: {
+    width: "50%",
+    height: "20%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
     padding: "10px",
   },
   button: {
-    // margin: "40px 40px 40px",
+    width: "fit-content",
+    margin: "10px auto",
+  },
+  calendarContainer: {
+    width: "30%",
+    display: "flex",
+    justifyContent: "center",
+    flexDirection: "column",
+    textAlign: "center",
+    margin: "0 auto",
+  },
+  calendar: {
+    width: "fit-content",
+  },
+  logWrapper: {
+    display: "flex",
+    margin: "0 auto",
+    width: "70%",
+    flexDirection: "column",
+    h2: {
+      margin: '20px 0 10px 0',
+      borderBottom: `1px ${theme.colors.gray[5]} solid`,
+    },
+  },
+  dateContainer: {
+    padding: '0 20px 0 20px',
+    h3: {
+      margin: "0",
+    },
   },
 }));
 

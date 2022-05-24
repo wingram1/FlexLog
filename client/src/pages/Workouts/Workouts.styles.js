@@ -22,7 +22,8 @@ const useStyles = createStyles((theme) => ({
     justifyContent: "center",
   },
   workoutsHeader: {
-    width: "60%",
+    height: "50px",
+    width: "80%",
     margin: "0 auto",
     display: "flex",
     flexDirection: "row",
@@ -35,9 +36,12 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    margin: "20px auto",
+    margin: "10px auto 20px auto",
     border: `1px ${theme.colors.gray[5]} solid`,
     borderRadius: 8,
+    "&:first-of-type": {
+      backgroundColor: theme.colors.red[9],
+    },
   },
   cardTitle: {
     width: "100%",
@@ -49,6 +53,9 @@ const useStyles = createStyles((theme) => ({
       width: "100%",
       margin: "5px",
     },
+    padding: '2px',
+    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 0
   },
   workoutCardMain: {
     display: "flex",
