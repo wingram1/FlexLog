@@ -249,16 +249,19 @@ function ActiveWorkout(props) {
         {currentExercise.settings.weight && (
           <>
             <label htmlFor={`set-${setIndex}-weight`}>Weight: </label>
-            <input
-              type="number"
-              name={`set-${setIndex}-weight`}
-              placeholder={
-                setData[setIndex].weight && `${setData[setIndex].weight}`
-              }
-              data-type={"weight"}
-              data-setindex={`${setIndex}`}
-              onChange={handleChange}
-            />
+            <div>
+              <input
+                type="number"
+                name={`set-${setIndex}-weight`}
+                placeholder={
+                  setData[setIndex].weight && `${setData[setIndex].weight}`
+                }
+                data-type={"weight"}
+                data-setindex={`${setIndex}`}
+                onChange={handleChange}
+              />
+              <span> lbs.</span>
+            </div>
           </>
         )}
         {/* render reps input */}
@@ -281,17 +284,20 @@ function ActiveWorkout(props) {
         {currentExercise.settings.distance && (
           <>
             <label htmlFor={`set-${setIndex}-distance`}>Distance: </label>
-            <input
-              type="number"
-              step="0.01"
-              name={`set-${setIndex}-distance`}
-              placeholder={
-                setData[setIndex].distance && `${setData[setIndex].distance}`
-              }
-              data-setindex={`${setIndex}`}
-              data-type={"distance"}
-              onChange={handleChange}
-            />
+            <div>
+              <input
+                type="number"
+                step="0.01"
+                name={`set-${setIndex}-distance`}
+                placeholder={
+                  setData[setIndex].distance && `${setData[setIndex].distance}`
+                }
+                data-setindex={`${setIndex}`}
+                data-type={"distance"}
+                onChange={handleChange}
+              />
+              <span> mi.</span>
+            </div>
           </>
         )}
         {/* render countdown timer */}

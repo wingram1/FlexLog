@@ -43,7 +43,7 @@ function UserLog(props) {
                     {session.exercises.map((exercise, i) => {
                       return (
                         <li>
-                          {exercise.name} :
+                          <h4>{exercise.name}:</h4>
                           {exercise.setData.map((set, i) => {
                             // map setData & conditionally return values
                             return (
@@ -52,16 +52,41 @@ function UserLog(props) {
                                 <ul>
                                   {set.reps ? <li>Reps: {set.reps}</li> : <></>}
                                   {set.weight ? (
-                                    <li>Weight: {set.weight}</li>
+                                    <li>Weight: {set.weight} lbs</li>
                                   ) : (
                                     <></>
                                   )}
                                   {set.distance ? (
-                                    <li>Distance: {set.distance}</li>
+                                    <li>Distance: {set.distance} mi</li>
                                   ) : (
                                     <></>
                                   )}
-                                  {set.time ? <li>Time: {set.time}</li> : <></>}
+                                  {set.time ? (
+                                    <li>
+                                      Time:{"  "}
+                                      <span>
+                                        {" "}
+                                        {/* hours */}
+                                        {(
+                                          "0" +
+                                          Math.floor((set.time / 3600) % 60)
+                                        ).slice(-2)}{" "}
+                                        :
+                                      </span>
+                                      <span>
+                                        {" "}
+                                        {/* minutes */}
+                                        {(
+                                          "0" + Math.floor((set.time / 60) % 60)
+                                        ).slice(-2)}{" "}
+                                        :
+                                      </span>{" "}
+                                      {/* seconds */}
+                                      <span>{set.time}</span>
+                                    </li>
+                                  ) : (
+                                    <></>
+                                  )}
                                 </ul>
                               </div>
                             );

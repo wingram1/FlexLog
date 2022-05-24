@@ -40,6 +40,9 @@ const useStyles = createStyles((theme) => ({
     flexDirection: "column",
     textAlign: "center",
     margin: "0 auto",
+    h3: {
+      width: 'fit-content'
+    }
   },
   calendar: {
     width: "fit-content",
