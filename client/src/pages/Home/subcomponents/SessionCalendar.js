@@ -15,8 +15,9 @@ function MantineCalendar(props) {
     <Calendar
       value={pickedDate}
       onChange={setPickedDate}
+      firstDayOfWeek="sunday"
       dayStyle={(date) =>
-        // checks if each date on calendar matches sessions array
+        // checks if each date on calendar matches sessions array, highlights if it does
         sessions.some((day) => day === date.toDateString())
           ? { backgroundColor: theme.colors.red[6], color: theme.white }
           : null

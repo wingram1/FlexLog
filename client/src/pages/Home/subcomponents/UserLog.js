@@ -15,7 +15,7 @@ function UserLog(props) {
   const mostRecent =
     Object.keys(userSessions)[Object.keys(userSessions).length - 1];
 
-  console.log(pickedDate.toString());
+  const pickedDateString = pickedDate.toDateString();
 
   // map today's sessions, otherwise most recent (mySessions[mySessions.length - 1])
 
@@ -24,37 +24,67 @@ function UserLog(props) {
       <h2>Activity Log</h2>
       {/* check for user sessions */}
       {userSessions ? (
-        userSessions[today] ? (
-          Object.keys(userSessions[today]).map((day, i) => {
-            const session = userSessions[today][day];
-            return (
-              <div>
-                <h3>Activity for {pickedDate.toDateString()}</h3>
-                <p>
-                  {session.title} - {session.time}
-                  {/* TODO: map exercises and whatnot */}
-                </p>
-              </div>
-            );
-          })
+        userSessions[pickedDateString] ? (
+          <div className={classes.dateContainer}>
+            {userSessions[pickedDateString] === userSessions[today] ? (
+              <h3>Today's Activity ({pickedDateString}): </h3>
+            ) : (
+              <h3>Activity for {pickedDate.toDateString()}</h3>
+            )}
+            {Object.keys(userSessions[pickedDateString]).map((day, i) => {
+              const session = userSessions[pickedDateString][day];
+              return (
+                <div>
+                  <h3>
+                    {session.title} - {session.time}
+                  </h3>
+                  <ul>
+                    {/* map exercises */}
+                    {session.exercises.map((exercise, i) => {
+                      return (
+                        <li>
+                          {exercise.name} :
+                          {exercise.setData.map((set, i) => {
+                            // map setData & conditionally return values
+                            return (
+                              <div>
+                                <h4>Set {set.setNum}:</h4>
+                                <ul>
+                                  {set.reps ? <li>Reps: {set.reps}</li> : <></>}
+                                  {set.weight ? (
+                                    <li>Weight: {set.weight}</li>
+                                  ) : (
+                                    <></>
+                                  )}
+                                  {set.distance ? (
+                                    <li>Distance: {set.distance}</li>
+                                  ) : (
+                                    <></>
+                                  )}
+                                  {set.time ? <li>Time: {set.time}</li> : <></>}
+                                </ul>
+                              </div>
+                            );
+                          })}
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+              );
+            })}
+          </div>
         ) : (
-          // gets most recent
-          Object.keys(userSessions[mostRecent]).map((day, i) => {
-            const session = userSessions[mostRecent][day];
-            return (
-              <div>
-                <h3>Most recent activity: </h3>
-                <p>
-                  {session.title} - {session.time}
-                  {/* TODO: map exercises and whatnot */}
-                </p>
-              </div>
-            );
-          })
+          // Error message if no sessions on selected date
+          <div className={classes.dateContainer}>
+            <h3>{pickedDateString}</h3>
+            <h4>No sessions found for this date!</h4>
+          </div>
+          // })
         )
       ) : (
         // error message on no sessions
-        <p>You don't have any workout sessions saved!</p>
+        <h4>You don't have any workout sessions saved!</h4>
       )}
     </div>
   );

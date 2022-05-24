@@ -50,8 +50,15 @@ const useStyles = createStyles((theme) => ({
     width: "70%",
     flexDirection: "column",
     h2: {
-      borderBottom: `1px ${theme.colors.gray[5]} solid`
-    }
+      margin: '20px 0 10px 0',
+      borderBottom: `1px ${theme.colors.gray[5]} solid`,
+    },
+  },
+  dateContainer: {
+    padding: '0 20px 0 20px',
+    h3: {
+      margin: "0",
+    },
   },
 }));
 
