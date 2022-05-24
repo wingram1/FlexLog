@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 
+import localForage from "localforage";
+
 import {
   Button,
   Container,
@@ -61,7 +63,7 @@ function Create() {
     //   get name attribute and value from target
     const { name, value } = e.target;
 
-    console.log(name, value)
+    console.log(name, value);
 
     // update formData
     setFormData({ ...formData, [name]: value });
@@ -69,7 +71,7 @@ function Create() {
     console.log(formData);
   };
 
-  const submitForm = function (e) {
+  const submitForm = async function (e) {
     e.preventDefault();
 
     // return new array with updated id's to equal index
@@ -93,21 +95,35 @@ function Create() {
     // logs to console for testing purposes
     console.log(submittedFormData);
 
-    // push to localStorage
-    var myWorkouts = JSON.parse(localStorage.getItem("myWorkouts"));
-    console.log(myWorkouts);
+    // make temp workouts array
+    let myWorkouts = [];
 
+    // Check for localForage database
+    await localForage.getItem("myWorkouts", function (err, value) {
+      if (err) {
+        console.log(err);
+        return;
+      }
+
+      myWorkouts = JSON.parse(value);
+      console.log(myWorkouts);
+    });
+
+    // if no database, make an empty temp array
     if (!myWorkouts) {
-      console.log("No workouts found! Creating localStorage database...");
-      localStorage.setItem("myWorkouts", []);
+      console.log("No workouts found! Creating localForage database...");
+      localForage.setItem("myWorkouts", []);
 
       myWorkouts = [];
     }
 
+    // push to temp array then set
     myWorkouts.push(submittedFormData);
-    localStorage.setItem("myWorkouts", JSON.stringify(myWorkouts));
+    localForage.setItem("myWorkouts", JSON.stringify(myWorkouts));
 
+    // go back to My Workouts
     document.location.replace("/workouts");
+
     // TODO: when database is up, check for online then push there
   };
 

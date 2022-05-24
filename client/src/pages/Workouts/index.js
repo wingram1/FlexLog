@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Button } from "@mantine/core";
+import localForage from "localforage";
 
 import useStyles from "./Workouts.styles";
 
@@ -14,19 +15,24 @@ function Workouts() {
     workout: {},
   });
 
-  console.log(activeWorkout);
-
-  // populates workout list
-  function getWorkouts() {
-    // TODO: get from localStorage, compare with database, pull/push accordingly
-
-    let workouts = JSON.parse(localStorage.getItem("myWorkouts"));
-
-    return workouts;
-  }
-
   // set state to pulled workout list
-  const [workoutData, setWorkoutData] = useState(getWorkouts);
+  const [workoutData, setWorkoutData] = useState([]);
+
+  // check localForage for Workouts then populate userWorkouts with those
+  useEffect(() => {
+    async function getWorkouts() {
+      const value = await localForage.getItem("myWorkouts").then((data) => {
+        return data;
+      });
+      return JSON.parse(value);
+    }
+
+    getWorkouts()
+      .then((value) => {
+        setWorkoutData(value);
+      })
+      .catch(console.error);
+  }, []);
 
   // sets a workout to active
   function startWorkout(e) {
@@ -64,7 +70,7 @@ function Workouts() {
   }
 
   // log workoutData
-  console.log(workoutData);
+  // console.log(workoutData);
 
   return (
     <>

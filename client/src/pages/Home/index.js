@@ -9,37 +9,30 @@ import { getToday, getMonthFromString } from "../../utils/dateTools";
 
 import localForage from "localforage";
 
-localForage.getItem("mySessions", function (err, value) {
-  if (err) {
-    console.log(err);
-    return {};
-  }
-
-  return JSON.parse(value);
-});
-
 function Home() {
   const { classes } = useStyles();
 
   // pickedDate for calendar component (set to today by default)
   const [pickedDate, setPickedDate] = useState(new Date(getToday()));
 
-  // grab sessions from localStorage
+  // set up blank array
   const [userSessions, setUserSessions] = useState({});
 
-  // ? TODO: need a better way to do this I think; causes refresh issues
-  localForage.getItem("mySessions", function (err, value) {
-    if (err) {
-      console.log(err);
-      return;
+  // check localForage for sessions then populate userSessions with those
+  useEffect(() => {
+    async function getSessions() {
+      const value = await localForage.getItem("mySessions").then((data) => {
+        return data;
+      });
+      return JSON.parse(value);
     }
 
-    setUserSessions(JSON.parse(value));
-  });
-
-  // console.log(userSessions);
-
-  // setUserSessions(getSessions())
+    getSessions()
+      .then((value) => {
+        setUserSessions(value);
+      })
+      .catch(console.error);
+  }, []);
 
   return (
     <div className={classes.home}>

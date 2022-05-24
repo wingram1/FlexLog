@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import localForage from "localforage";
 
 import { Button } from "@mantine/core";
 import useStyles from "./ActiveWorkout.styles";
@@ -184,18 +185,23 @@ function ActiveWorkout(props) {
     // console.log(timerDuration);
   }
 
-  function handleFinish() {
+  async function handleFinish() {
     console.log("Finished!");
     console.log("Final sessionData: ", sessionData);
 
-    var mySessions = JSON.parse(localStorage.getItem("mySessions"));
+    // make empty sessions object
+    let mySessions = {};
 
-    // push to localStorage
-    if (!localStorage.getItem("mySessions")) {
-      console.log("No sessions found! Creating localStorage database...");
+    // Check for localForage database
+    await localForage.getItem("mySessions", function (err, value) {
+      if (err) {
+        console.log(err);
+        return;
+      }
 
-      mySessions = {};
-    }
+      mySessions = JSON.parse(value);
+      console.log(mySessions);
+    });
 
     const today = getToday();
 
@@ -209,8 +215,8 @@ function ActiveWorkout(props) {
     mySessions[today].push(sessionData);
     console.log(mySessions);
 
-    // push to localStorage
-    localStorage.setItem("mySessions", JSON.stringify(mySessions));
+    // push to localForage
+    localForage.setItem("mySessions", JSON.stringify(mySessions));
 
     // back to home
     document.location.replace("/");
