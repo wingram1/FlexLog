@@ -1,12 +1,61 @@
 const { Schema, model } = require('mongoose');
-const exerciseSchema = require("./Exercise");
 
-const WorkoutSchema = new Schema({
+
+// const settingsSchema  = new Schema({
+//     sets: {
+//         type: Number,
+//         required: false
+//     },
+//     reps: {
+//         type: Boolean,
+//         required: false,
+//     },
+//     distance: {
+//         type: Boolean,
+//         required: false
+//     },
+//     timer: {
+//         type: String,
+//         required: false
+//     },
+//     rest: {
+//         type: Number,
+//         required: true
+//     },
+    
+// },
+// );
+
+// const exerciseSchema = new Schema(
+//     {
+//         name: {
+//             type: String,
+//             required: true
+//         },
+//         icon: {
+//             type: String
+//         },
+//         settings: [settingsSchema]
+//     },
+//     {
+//         toJSON: {
+//             getters: true
+//         }
+//     }
+// );
+
+
+
+const workoutSchema = new Schema({
     title: {
         type: String
     },
     description: {
         type: String
+    },
+    creator: {
+        type: String,
+        required: true
     },
     categories: [
         {
@@ -14,7 +63,41 @@ const WorkoutSchema = new Schema({
             required: true
         }
     ],
-    exercises: [exerciseSchema],
+    exercises: [
+        {
+            name: {
+                type: String,
+                required: true
+            },
+            icon: {
+                type: String
+            },
+            settings: [
+                {
+                    sets: {
+                        type: Number,
+                        required: false
+                    },
+                    reps: {
+                        type: Boolean,
+                        required: false,
+                    },
+                    distance: {
+                        type: Boolean,
+                        required: false
+                    },
+                    timer: {
+                        type: String,
+                        required: false
+                    },
+                    rest: {
+                        type: Number,
+                        required: true
+                    }
+                }
+            ]
+        }
+    ],
     createdBy: [
         {
             type: Schema.Types.ObjectId,
@@ -30,6 +113,6 @@ const WorkoutSchema = new Schema({
 
 
 
-const Workout = model('Workout', WorkoutSchema);
+const Workout = model('Workout', workoutSchema);
 
 module.exports = Workout;

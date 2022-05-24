@@ -2,6 +2,7 @@
     {
         "title": "My First Workout",
         "description": "Home workout with no equipment",
+        "creator": "BigBuffy",
         "categories": ["Home"],
         "exercises": [
             {
@@ -24,7 +25,7 @@
                     "sets": 3,
                     "reps": true,
                     "distance": false,
-                    "timer": "",
+                    "timer": "stopwatch",
                     "rest": 30
                 }
             },
@@ -45,6 +46,7 @@
     {
         "title": "My Second Workout",
         "description": "Anywhere all the time",
+        "creator": "LegDayEveryDay",
         "categories": ["The World"],
         "exercises": [
             {
@@ -67,7 +69,7 @@
                     "sets": 10,
                     "reps": true,
                     "distance": false,
-                    "timer": "",
+                    "timer": "stopwatch",
                     "rest": 30
                 }
             },
