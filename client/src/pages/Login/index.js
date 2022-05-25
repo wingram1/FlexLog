@@ -2,9 +2,18 @@ import React, { useState } from "react";
 
 import { Button, TextInput, PasswordInput, Group, Box } from "@mantine/core";
 
+import { useMutation } from '@apollo/client';
+import { ADD_USER, LOGIN_USER} from '../../utils/mutations';
+
+import Auth from '../../utils/auth';
+
 // when either submit is pressed, console-logs form object
 
 function Login() {
+
+  const [addUser] = useMutation(ADD_USER);
+  const [loginUser] = useMutation(LOGIN_USER);
+
   const [loginForm, setLoginForm] = useState({
     username: "",
     password: "",
@@ -12,6 +21,7 @@ function Login() {
 
   const [signupForm, setSignupForm] = useState({
     username: "",
+    email: "",
     password: "",
   });
 
@@ -23,20 +33,35 @@ function Login() {
       password: loginForm.password,
     };
 
+    // try {
+    //   const { data } = await LOGIN_USER
+    // }
     console.log("loginForm values:", values);
 
     // document.location.replace("/");
   };
 
-  const handleSignupSubmit = function (e) {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
 
     const values = {
       username: signupForm.username,
+      email: signupForm.email,
       password: signupForm.password,
     };
-
+    
     console.log("signUpForm values:", values);
+
+    try {
+      const { data } = await addUser({
+        variables: { signupForm } }
+      );
+      console.log(data);
+      Auth.login(data.addUser.token);
+    } catch (err) {
+      console.log(err);
+    }
+
 
     // document.location.replace("/");
   };
@@ -54,7 +79,7 @@ function Login() {
             onChange={(e) =>
               setLoginForm({ ...loginForm, username: e.target.value })
             }
-          />
+          /> 
           <PasswordInput
             required
             label="Password"
@@ -83,6 +108,14 @@ function Login() {
                 setSignupForm({ ...signupForm, username: e.target.value })
               }
             />
+            {/* Email input*/}
+          <TextInput  
+            required
+            label="Email"
+            placeholder="e.g. flexloglove42@gmail.com"
+            onChange={(e) =>
+              setSignupForm({ ...signupForm, email: e.target.value })
+            } />
             <PasswordInput
               required
               label="Password"

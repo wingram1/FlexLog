@@ -6,8 +6,8 @@ const typeDefs = gql`
         _id: ID!
         username: String!
         email: String!
-        createdWorkouts: [Workout]
-        savedWorkouts: [Workout]
+        myWorkouts: [Workout]
+        mySessions: [String]
     }
     type Workout {
         _id: ID!
@@ -25,11 +25,11 @@ const typeDefs = gql`
     }
     type Settings {
         _id: ID!
-        sets: Int
-        reps: Boolean
-        distance:  Boolean
+        sets: String
+        reps: String
+        distance:  String
         timer: String
-        rest: Int
+        rest: String
     }
 
     input WorkoutInput {
@@ -46,11 +46,11 @@ const typeDefs = gql`
     }
 
     input SettingsInput {
-        sets: Int
-        reps: Boolean
-        distance:  Boolean
+        sets: String
+        reps: String
+        distance: String
         timer: String
-        rest: Int
+        rest: String
     }
     type Auth {
         token: ID!
@@ -60,9 +60,7 @@ const typeDefs = gql`
     type Query {
         me: User
         users: [User]
-        user(username: String!): User
-        workouts: [Workout]
-        workout(_id: ID!): Workout
+        user(_id: ID!): User
     }
 
     type Mutation {

@@ -8,8 +8,8 @@ const resolvers = {
             if(context.user) {
                 const userData = await User.findOne({})
                     .select('-__v -password')
-                    .populate('savedWorkouts')
-                    .populate('createdWorkouts');
+                    .populate('myWorkouts')
+                    .populate('mySessions');
 
                 return userData;
             }
@@ -19,24 +19,24 @@ const resolvers = {
         users: async () => {
             return User.find()
                 .select('-__v -password')
-                .populate('savedWorkouts')
-                .populate('createdWorkouts');
+                .populate('myWorkouts')
+                .populate('mySessions');
         },
 
-        user: async (parent, { username }) => {
-            return User.findOne({ username })
+        user: async (parent, { _id }) => {
+            return User.findOne({ _id })
                 .select('-__v -password')
-                .populate('savedWorkouts')
+                .populate('myWorkouts')
                 .populate('createdWorkouts'); 
         },
 
-        workouts: async () => {
-            return Workout.find().populate('createdBy');
-        },
+        // workouts: async () => {
+        //     return Workout.find().populate('createdBy');
+        // },
 
-        workout: async (parent, { _id }) => {
-            return Workout.findOne({ _id });
-        },
+        // workout: async (parent, { _id }) => {
+        //     return Workout.findOne({ _id });
+        // },
     },
 
     Mutation: {
