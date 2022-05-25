@@ -42,8 +42,8 @@ function App() {
 
   return (
     <MantineProvider theme={useStyles} withGlobalStyles withNormalizeCSS>
-    <Router>
-      <GlobalStyles />
+      <Router>
+        <GlobalStyles />
 
         <div className={classes.wrapper}>
           <Header />
@@ -54,15 +54,10 @@ function App() {
               <Route exact path={`/FlexLog/login`} component={Login} />
               <Route exact path={`/FlexLog/workouts`} component={Workouts} />
               <Route
-                exact
                 path={`/FlexLog/workouts/active`}
                 component={ActiveWorkout}
               />
-              <Route
-                exact
-                path={`/FlexLog/workouts/edit`}
-                component={EditWorkout}
-              />
+              <Route path={`/FlexLog/workouts/edit`} component={EditWorkout} />
               <Route exact path="*">
                 <p>This doesn't exist! (yet...?)</p>
               </Route>
