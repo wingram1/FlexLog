@@ -12,12 +12,7 @@ db.once('open', async () => {
 
     await User.insertMany(userData);
     await Workout.insertMany(workoutData);
-    // add createdWorkouts
-    // for (createdWorkout of workouts) {
-    //     const tempUser = users[Math.floor(Math.random() * users.length)];
-    //     tempUser.workouts.push(createdWorkout._id);
-    //     await tempUser.save();
-    // }
+
        console.log('all done');
        process.exit(0);
 });

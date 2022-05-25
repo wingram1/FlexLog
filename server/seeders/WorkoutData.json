@@ -2,8 +2,7 @@
     {
         "title": "My First Workout",
         "description": "Home workout with no equipment",
-        "creator": "BigBuffy",
-        "categories": ["Home"],
+        "categories": "Home",
         "exercises": [
             {
                 

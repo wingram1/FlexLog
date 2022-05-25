@@ -44,13 +44,13 @@ const resolvers = {
             const user = await User.findOne({ email });
 
             if (!user) {
-                throw new AuthenticationError('Incorrect login');
+                throw new AuthenticationError('Incorrect email');
             }
 
             const correctPw = await user.isCorrectPassword(password);
 
             if (!correctPw) {
-                throw new AuthenticationError('Incorrect login');
+                throw new AuthenticationError('Incorrect password');
             }
             const token = signToken(user);
             return { token, user };
@@ -62,19 +62,53 @@ const resolvers = {
             return { token, user};
         },
 
-        addWorkout: async (parent, args, context) => {
+        addWorkout: async (parent, args, context) => {  
             if (context.user) {
-                const  workout = await Workout.create({ ...args, creator: context.user.username  });
-
-                await User.findByIdAndUpdate(
-                    { _id: context.user._id  },
-                    {  $push: { createdWorkouts: workout._id } },
+                const workout = await Workout.create(args.input);
+                console.log(workout);
+                const updatedUser = await User.findOneAndUpdate(
+                    {  _id: context.user._id},
+                    { $addToSet: { createdWorkouts: workout.id } },
                     { new: true }
-                );
+                    ).populate('createdWorkouts');
+                return updatedUser;
+            }
+            throw new AuthenticationError('You are not logged in');
+        },
+        removeWorkout: async (parent, args, context) => {
+            if (context.user) {
 
-                return workout;
+                    const updatedUser = await User.findOneAndUpdate(
+                        { _id: context.user._id},
+                        { $pull: { createdWorkouts: args._id } },
+                        { new: true, runValidators: true },
+                        ).populate('createdWorkouts');
+                    return updatedUser;
+    
             }
 
+            throw new AuthenticationError('You are not logged in');
+        },
+        saveWorkout: async (parent, args, context) => {
+            if (context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id},
+                    { $addToSet: { savedWorkouts: args._id } },
+                    { new: true },
+                    ).populate('savedWorkouts')
+                return updatedUser;
+            }
+            throw new AuthenticationError('You are not logged in');
+        },
+        unsaveWorkout: async (parent, args, context) => {
+            if (context.user) {
+                const updatedUser = await User.findOneAndUpdate(
+                    { _id: context.user._id},
+                    { $pull: {  savedWorkouts: args._id } },
+                    { new: true}
+                    ).populate('savedWorkouts');
+                return updatedUser;
+            }
             throw new AuthenticationError('You are not logged in');
         }
     }
