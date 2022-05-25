@@ -16,6 +16,8 @@ function ActiveWorkout(props) {
 
   const { activeWorkout, setActiveWorkout } = props;
 
+  console.log(activeWorkout);
+
   // if (!activeWorkout || activeWorkout.state !== "active") {
   //   // prevent race condition
   //   setTimeout(() => {
@@ -355,7 +357,7 @@ function ActiveWorkout(props) {
         <div className={classes.back}>
           {/* if first set in workout, don't render back button */}
           {isFirstInWorkout ? (
-            <Link to={{ pathname: "/workouts/" }}>
+            <Link to={{ pathname: "/FlexLog/workouts" }}>
               <button onClick={handleBackToWorkouts}>
                 Back to My Workouts
               </button>

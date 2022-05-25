@@ -53,11 +53,11 @@ function App() {
               <Route exact path={`/FlexLog/create`} component={Create} />
               <Route exact path={`/FlexLog/login`} component={Login} />
               <Route exact path={`/FlexLog/workouts`} component={Workouts} />
-              <Route
+              {/* <Route
                 path={`/FlexLog/workouts/active`}
                 component={ActiveWorkout}
-              />
-              <Route path={`/FlexLog/workouts/edit`} component={EditWorkout} />
+              /> */}
+              {/* <Route path={`/FlexLog/workouts/edit`} component={EditWorkout} /> */}
               <Route exact path="*">
                 <p>This doesn't exist! (yet...?)</p>
               </Route>

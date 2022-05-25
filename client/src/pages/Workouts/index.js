@@ -162,11 +162,11 @@ function Workouts() {
                       </p>
                     </div>
                     <div className={classes.workoutOptions}>
-                      <Link to={{ pathname: "/FlexLog/workouts/edit" }}>
+                      {/* <Link to={{ pathname: "/FlexLog/workouts/edit" }}> */}
                         <Button color="gray" data-id={i} onClick={editWorkout}>
                           Edit
                         </Button>
-                      </Link>
+                      {/* </Link> */}
                       <Button color="red" data-id={i} onClick={deleteWorkout}>
                         Delete
                       </Button>
@@ -185,11 +185,11 @@ function Workouts() {
                       ))}
                     </ul>
                     <div className={classes.workoutStart}>
-                      <Link to={{ pathname: "/FlexLog/workouts/active" }}>
+                      {/* <Link to={{ pathname: "/FlexLog/workouts/active" }}> */}
                         <Button data-id={i} onClick={startWorkout}>
                           Start
                         </Button>
-                      </Link>
+                      {/* </Link> */}
                     </div>
                   </div>
                 </div>
