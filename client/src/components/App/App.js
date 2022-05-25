@@ -24,10 +24,6 @@ import Login from "../../pages/Login";
 // ! Uncomment to clear localForage for testing
 // localForage.clear();
 
-const jsonstring = `'{"title":"title"}'`;
-
-console.log(jsonstring);
-
 localForage.getItem("myWorkouts").then((data) => {
   console.log("myWorkouts: ", JSON.parse(data));
 });
@@ -45,6 +41,7 @@ function App() {
   const { classes } = useStyles();
 
   return (
+    <MantineProvider theme={useStyles} withGlobalStyles withNormalizeCSS>
     <Router>
       <MetaTags>
         <title>FlexLog</title>
@@ -71,15 +68,8 @@ function App() {
         <Footer />
       </div>
     </Router>
-  );
-}
-
-function WithProvider() {
-  return (
-    <MantineProvider theme={useStyles} withGlobalStyles withNormalizeCSS>
-      <App />
     </MantineProvider>
   );
 }
 
-export default WithProvider;
+export default App;

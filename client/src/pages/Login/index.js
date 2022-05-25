@@ -12,8 +12,12 @@ function Login() {
 
   const [signupForm, setSignupForm] = useState({
     username: "",
+    email: "",
     password: "",
   });
+
+  console.log("login", loginForm);
+  console.log("signup", signupForm);
 
   const handleLoginSubmit = function (e) {
     e.preventDefault();
@@ -33,6 +37,7 @@ function Login() {
 
     const values = {
       username: signupForm.username,
+      email: signupForm.email,
       password: signupForm.password,
     };
 
@@ -81,6 +86,14 @@ function Login() {
               placeholder="e.g. flexloglover42"
               onChange={(e) =>
                 setSignupForm({ ...signupForm, username: e.target.value })
+              }
+            />
+            <TextInput
+              required
+              label="Email"
+              placeholder="e.g.flexman@gmail.com"
+              onChange={(e) =>
+                setSignupForm({ ...signupForm, email: e.target.value })
               }
             />
             <PasswordInput
