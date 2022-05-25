@@ -16,15 +16,15 @@ function ActiveWorkout(props) {
 
   const { activeWorkout, setActiveWorkout } = props;
 
-  if (!activeWorkout || activeWorkout.state !== "active") {
-    // prevent race condition
-    setTimeout(() => {
-      if (!activeWorkout || activeWorkout.state !== "active") {
-        console.log("No workout found! Returning to My Workouts...");
-        document.location.replace("/FlexLog/workouts");
-      }
-    }, 1000);
-  }
+  // if (!activeWorkout || activeWorkout.state !== "active") {
+  //   // prevent race condition
+  //   setTimeout(() => {
+  //     if (!activeWorkout || activeWorkout.state !== "active") {
+  //       console.log("No workout found! Returning to My Workouts...");
+  //       document.location.replace("/FlexLog/workouts");
+  //     }
+  //   }, 1000);
+  // }
 
   // sets state for activeExercise
   const [activeExercise, setActiveExercise] = useState({
