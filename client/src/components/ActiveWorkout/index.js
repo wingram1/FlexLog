@@ -17,8 +17,13 @@ function ActiveWorkout(props) {
   const { activeWorkout, setActiveWorkout } = props;
 
   if (!activeWorkout || activeWorkout.state !== "active") {
-    console.log("No workout orkout found! Returning to My Workouts...");
-    document.location.replace("/FlexLog/workouts");
+    // prevent race condition
+    setTimeout(() => {
+      if (!activeWorkout || activeWorkout.state !== "active") {
+        console.log("No workout found! Returning to My Workouts...");
+        document.location.replace("/FlexLog/workouts");
+      }
+    }, 1000);
   }
 
   // sets state for activeExercise

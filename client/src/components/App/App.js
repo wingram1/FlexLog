@@ -21,7 +21,7 @@ import Create from "../../pages/Create";
 import ActiveWorkout from "../ActiveWorkout";
 import Login from "../../pages/Login";
 
-// ! Uncomment to clear localForage for testing
+// Uncomment to clear localForage for testing
 // localForage.clear();
 
 localForage.getItem("myWorkouts").then((data) => {
@@ -42,13 +42,8 @@ function App() {
 
   return (
     <MantineProvider theme={useStyles} withGlobalStyles withNormalizeCSS>
-      <Router>
-        <MetaTags>
-          <title>FlexLog</title>
-          {/* Add favicon link here */}
-          {/* Add manifest link here */}
-        </MetaTags>
-        <GlobalStyles />
+    <Router>
+      <GlobalStyles />
 
         <div className={classes.wrapper}>
           <Header />

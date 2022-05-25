@@ -20,8 +20,13 @@ function EditWorkout(props) {
   const { activeWorkout, setActiveWorkout } = props;
 
   if (!activeWorkout || activeWorkout.state !== "edit") {
-    console.log("No workout found! Returning to My Workouts...");
-    document.location.replace("/FlexLog/workouts");
+    // prevent race condition
+    setTimeout(() => {
+      if (!activeWorkout || activeWorkout.state !== "edit") {
+        console.log("No workout found! Returning to My Workouts...");
+        document.location.replace("/FlexLog/workouts");
+      }
+    }, 1000);
   }
 
   const [formData, setFormData] = useState({
