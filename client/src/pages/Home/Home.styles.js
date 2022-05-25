@@ -59,6 +59,9 @@ const useStyles = createStyles((theme) => ({
     margin: "30px auto 0 auto",
     width: "70%",
     flexDirection: "column",
+    backgroundColor: theme.colors.gray[0],
+    border: `1px ${theme.colors.gray[5]} solid`,
+    borderRadius: 8,
     h2: {
       backgroundColor: theme.colors.red[6],
       color: theme.colors.gray[0],
@@ -68,9 +71,12 @@ const useStyles = createStyles((theme) => ({
       margin: "0 0 20px 0",
       borderBottom: `1px ${theme.colors.gray[5]} solid`,
     },
-    backgroundColor: theme.colors.gray[0],
-    border: `1px ${theme.colors.gray[5]} solid`,
-    borderRadius: 8,
+    ul: {
+      paddingLeft: '20px',
+      li: {
+        paddingLeft: '10px',
+      }
+    }
   },
   dateContainer: {
     width: "100%",

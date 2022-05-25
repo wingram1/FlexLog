@@ -125,6 +125,7 @@ function Workouts() {
 
   return (
     <>
+      {!workoutData && <h3>You don't have any workouts!</h3>}
       {activeWorkout.state === "list" && (
         <div className={classes.workoutsWrapper}>
           {/* map workouts inside here */}
