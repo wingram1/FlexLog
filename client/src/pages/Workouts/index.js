@@ -1,32 +1,55 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Badge, Button } from "@mantine/core";
+import localForage from "localforage";
 
 import useStyles from "./Workouts.styles";
 
 import ActiveWorkout from "../../components/ActiveWorkout";
+import EditWorkout from "../../components/EditWorkout";
+
+localForage.getItem("myWorkouts").then((value) => {
+  console.log("myWorkouts: ", value);
+});
 
 function Workouts() {
   const { classes } = useStyles();
 
+  // `state` takes "list", "edit", "active"
   const [activeWorkout, setActiveWorkout] = useState({
-    active: false,
+    state: "list",
+    index: null,
     workout: {},
   });
 
-  console.log(activeWorkout);
-
-  // populates workout list
-  function getWorkouts() {
-    // TODO: get from localStorage, compare with database, pull/push accordingly
-
-    let workouts = JSON.parse(localStorage.getItem("myWorkouts"));
-
-    return workouts;
-  }
-
   // set state to pulled workout list
-  const [workoutData, setWorkoutData] = useState(getWorkouts);
+  const [workoutData, setWorkoutData] = useState([]);
+
+  // check localForage for Workouts then populate userWorkouts with those
+  useEffect(() => {
+    async function getWorkouts() {
+      const value = await localForage
+        .getItem("myWorkouts")
+        .then((data) => {
+          console.log(data);
+          return JSON.parse(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      return await value;
+    }
+
+    getWorkouts()
+      .then((value) => {
+        if (!value) {
+          return;
+        }
+        setWorkoutData(value);
+      })
+      .catch(console.error);
+  }, []);
 
   // sets a workout to active
   function startWorkout(e) {
@@ -40,35 +63,69 @@ function Workouts() {
     }
 
     setActiveWorkout({
-      active: true,
+      state: "active",
+      index: target,
       workout: workoutData[target],
     });
   }
 
   // TODO: passes a workout through to edit page/component
   function editWorkout(e) {
-    console.log(
-      `Edit Workout ${
-        workoutData[e.target.getAttribute("data-id")].title
-      } clicked`
-    );
+    let target;
+
+    // compensate for clicking on Mantine button <span> label
+    if (e.target.nodeName === "SPAN") {
+      target = e.target.parentNode.parentNode.getAttribute("data-id");
+    } else if (e.target.nodeName === "BUTTON") {
+      target = e.target.getAttribute("data-id");
+    }
+
+    setActiveWorkout({
+      state: "edit",
+      index: target,
+      workout: workoutData[target],
+    });
   }
 
   // TODO: opens a modal/alert to confirm, then deletes
-  function deleteWorkout(e) {
-    console.log(
-      `Delete Workout ${
-        workoutData[e.target.getAttribute("data-id")].title
-      } clicked`
-    );
+  async function deleteWorkout(e) {
+    let target;
+
+    // compensate for clicking on Mantine button <span> label
+    if (e.target.nodeName === "SPAN") {
+      target = e.target.parentNode.parentNode.getAttribute("data-id");
+    } else if (e.target.nodeName === "BUTTON") {
+      target = e.target.getAttribute("data-id");
+    }
+
+    console.log(`Delete Workout ${workoutData[target].title} clicked`);
+
+    let updatedWorkouts = [];
+
+    await localForage
+      .getItem("myWorkouts")
+      .then((data) => {
+        // make temp array and splice
+        updatedWorkouts = JSON.parse(data);
+        updatedWorkouts.splice(target, 1);
+
+        // set new data
+        localForage.setItem("myWorkouts", JSON.stringify(updatedWorkouts));
+
+        // refresh page to show changes
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
-  // log workoutData
-  console.log(workoutData);
+  // log workoutData for testing
+  // console.log("workoutData: ", workoutData);
 
   return (
     <>
-      {!activeWorkout.active ? (
+      {activeWorkout.state === "list" && (
         <div className={classes.workoutsWrapper}>
           {/* map workouts inside here */}
           <div className={classes.workoutsContainer}>
@@ -104,9 +161,11 @@ function Workouts() {
                       </p>
                     </div>
                     <div className={classes.workoutOptions}>
-                      <Button color="gray" data-id={i} onClick={editWorkout}>
-                        Edit
-                      </Button>
+                      <Link to={{ pathname: "/workouts/edit" }}>
+                        <Button color="gray" data-id={i} onClick={editWorkout}>
+                          Edit
+                        </Button>
+                      </Link>
                       <Button color="red" data-id={i} onClick={deleteWorkout}>
                         Delete
                       </Button>
@@ -137,8 +196,15 @@ function Workouts() {
             ))}
           </div>
         </div>
-      ) : (
+      )}
+      {activeWorkout.state === "active" && (
         <ActiveWorkout
+          activeWorkout={activeWorkout}
+          setActiveWorkout={setActiveWorkout}
+        />
+      )}
+      {activeWorkout.state === "edit" && (
+        <EditWorkout
           activeWorkout={activeWorkout}
           setActiveWorkout={setActiveWorkout}
         />

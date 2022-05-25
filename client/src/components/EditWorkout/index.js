@@ -10,18 +10,25 @@ import {
   MultiSelect,
   Textarea,
 } from "@mantine/core";
-import useStyles from "./Create.styles";
+import useStyles from "../../pages/Create/Create.styles";
 
-import ExerciseList from "../../components/ExerciseList";
+import EditExerciseList from "./EditExerciseList";
 
-function Create() {
+function EditWorkout(props) {
   const { classes } = useStyles();
 
+  const { activeWorkout, setActiveWorkout } = props;
+
+  if (!activeWorkout || activeWorkout.state !== "edit") {
+    console.log("No workout found! Returning to My Workouts...");
+    document.location.replace("/workouts");
+  }
+
   const [formData, setFormData] = useState({
-    title: "",
-    description: "",
-    categories: [],
-    exercises: [{}],
+    title: activeWorkout.workout.title,
+    description: activeWorkout.workout.description,
+    categories: activeWorkout.workout.categories,
+    exercises: activeWorkout.workout.exercises,
   });
 
   const categoryOptions = [
@@ -35,35 +42,24 @@ function Create() {
     { value: "Heavy Equipment", label: "Heavy Equipment" },
   ];
 
-  const [categorySelections, setCategorySelections] = useState([]);
+  const [categorySelections, setCategorySelections] = useState(
+    formData.categories
+  );
 
   // updates formData with category MultiSelect
   useEffect(() => {
-    console.log(`Selected categories: ${categorySelections}`);
-    setFormData({ ...formData, categories: categorySelections });
-  }, [categorySelections]);
+    if (categorySelections !== formData.categories) {
+      setFormData({ ...formData, categories: categorySelections });
+    }
+  }, [formData, categorySelections]);
 
-  const [exerciseData, setExerciseData] = useState({
-    0: {
-      id: 0,
-      name: "",
-      icon: "",
-      settings: {
-        sets: 1,
-        reps: false,
-        weight: false,
-        distance: false,
-        timer: "",
-        rest: 30,
-      },
-    },
-  });
+  const [exerciseData, setExerciseData] = useState(
+    Object.assign(activeWorkout.workout.exercises)
+  );
 
   const handleChange = function (e) {
     //   get name attribute and value from target
     const { name, value } = e.target;
-
-    console.log(name, value);
 
     // update formData
     setFormData({ ...formData, [name]: value });
@@ -84,7 +80,7 @@ function Create() {
       };
     });
 
-    // TODO: add 'createdBy' key to reference authenticated 'Me'
+    // TODO: add 'CreatedBy' key to reference authenticated 'Me'
     const submittedFormData = {
       title: formData.title,
       description: formData.description,
@@ -104,28 +100,19 @@ function Create() {
       .then((data) => {
         console.log(data);
         myWorkouts = JSON.parse(data);
-        console.log(myWorkouts);
       })
       .catch((err) => {
         console.log(err);
       });
 
-    // if no database, make an empty temp array
-    if (!myWorkouts) {
-      console.log("No workouts found! Creating localForage database...");
-      localForage.setItem("myWorkouts", []);
-
-      myWorkouts = [];
-    }
-
-    // push to temp array then set
-    myWorkouts.push(submittedFormData);
-    console.log(submittedFormData);
-    console.log(myWorkouts);
+    // get index of activeWorkout and set there
+    myWorkouts[activeWorkout.index] = submittedFormData;
 
     await localForage
       .setItem("myWorkouts", JSON.stringify(myWorkouts))
       .then(() => {
+        setActiveWorkout({ state: "list", index: null, workout: {} });
+
         // go back to My Workouts
         document.location.replace("/workouts");
       });
@@ -135,8 +122,8 @@ function Create() {
 
   return (
     <Container>
-      <div className={classes.createFormContainer}>
-        <h2>Create Workout:</h2>
+      <div className={classes.editFormContainer}>
+        <h2>Edit Workout:</h2>
         <form id="workoutForm">
           <InputWrapper
             id="title"
@@ -144,7 +131,12 @@ function Create() {
             label="Title:"
             className={classes.title}
           >
-            <Input name="title" id="title" onChange={handleChange} />
+            <Input
+              name="title"
+              id="title"
+              value={formData.title}
+              onChange={handleChange}
+            />
           </InputWrapper>
 
           <InputWrapper id="categories" label="Categories: ">
@@ -156,7 +148,7 @@ function Create() {
               className={classes.categories}
               clearable
               maxSelectedValues={3}
-              values={categorySelections}
+              values={formData.categories}
               onChange={setCategorySelections}
             />
           </InputWrapper>
@@ -166,9 +158,11 @@ function Create() {
             id="description"
             classname={classes.description}
             label="Description"
+            value={formData.description}
             onChange={handleChange}
           ></Textarea>
-          <ExerciseList
+          <EditExerciseList
+            activeWorkout={activeWorkout}
             formData={formData}
             exerciseData={exerciseData}
             setExerciseData={setExerciseData}
@@ -184,4 +178,4 @@ function Create() {
   );
 }
 
-export default Create;
+export default EditWorkout;

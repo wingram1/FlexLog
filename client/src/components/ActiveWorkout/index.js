@@ -1,5 +1,6 @@
 import React, { useState, useContext } from "react";
 import { Link } from "react-router-dom";
+import localForage from "localforage";
 
 import { Button } from "@mantine/core";
 import useStyles from "./ActiveWorkout.styles";
@@ -15,8 +16,8 @@ function ActiveWorkout(props) {
 
   const { activeWorkout, setActiveWorkout } = props;
 
-  if (!activeWorkout) {
-    console.log("No activeWorkout found! Returning to My Workouts...");
+  if (!activeWorkout || activeWorkout.state !== "active") {
+    console.log("No workout orkout found! Returning to My Workouts...");
     document.location.replace("/workouts");
   }
 
@@ -62,7 +63,7 @@ function ActiveWorkout(props) {
 
   // button to go back to myWorkouts (lose progress)
   function handleBackToWorkouts(e) {
-    setActiveWorkout(false, {});
+    setActiveWorkout({ state: "list", index: null, workout: {} });
   }
 
   function handleSetCycle(e) {
@@ -184,18 +185,22 @@ function ActiveWorkout(props) {
     // console.log(timerDuration);
   }
 
-  function handleFinish() {
+  async function handleFinish() {
     console.log("Finished!");
     console.log("Final sessionData: ", sessionData);
 
-    var mySessions = JSON.parse(localStorage.getItem("mySessions"));
+    // make empty sessions object
+    let mySessions = {};
 
-    // push to localStorage
-    if (!localStorage.getItem("mySessions")) {
-      console.log("No sessions found! Creating localStorage database...");
+    // Check for localForage database
+    await localForage.getItem("mySessions").then((data) => {
+      if (!data) {
+        return;
+      }
 
-      mySessions = {};
-    }
+      mySessions = JSON.parse(data);
+      console.log(mySessions);
+    });
 
     const today = getToday();
 
@@ -209,8 +214,8 @@ function ActiveWorkout(props) {
     mySessions[today].push(sessionData);
     console.log(mySessions);
 
-    // push to localStorage
-    localStorage.setItem("mySessions", JSON.stringify(mySessions));
+    // push to localForage
+    localForage.setItem("mySessions", JSON.stringify(mySessions));
 
     // back to home
     document.location.replace("/");
@@ -249,16 +254,19 @@ function ActiveWorkout(props) {
         {currentExercise.settings.weight && (
           <>
             <label htmlFor={`set-${setIndex}-weight`}>Weight: </label>
-            <input
-              type="number"
-              name={`set-${setIndex}-weight`}
-              placeholder={
-                setData[setIndex].weight && `${setData[setIndex].weight}`
-              }
-              data-type={"weight"}
-              data-setindex={`${setIndex}`}
-              onChange={handleChange}
-            />
+            <div>
+              <input
+                type="number"
+                name={`set-${setIndex}-weight`}
+                placeholder={
+                  setData[setIndex].weight && `${setData[setIndex].weight}`
+                }
+                data-type={"weight"}
+                data-setindex={`${setIndex}`}
+                onChange={handleChange}
+              />
+              <span> lbs.</span>
+            </div>
           </>
         )}
         {/* render reps input */}
@@ -281,17 +289,20 @@ function ActiveWorkout(props) {
         {currentExercise.settings.distance && (
           <>
             <label htmlFor={`set-${setIndex}-distance`}>Distance: </label>
-            <input
-              type="number"
-              step="0.01"
-              name={`set-${setIndex}-distance`}
-              placeholder={
-                setData[setIndex].distance && `${setData[setIndex].distance}`
-              }
-              data-setindex={`${setIndex}`}
-              data-type={"distance"}
-              onChange={handleChange}
-            />
+            <div>
+              <input
+                type="number"
+                step="0.01"
+                name={`set-${setIndex}-distance`}
+                placeholder={
+                  setData[setIndex].distance && `${setData[setIndex].distance}`
+                }
+                data-setindex={`${setIndex}`}
+                data-type={"distance"}
+                onChange={handleChange}
+              />
+              <span> mi.</span>
+            </div>
           </>
         )}
         {/* render countdown timer */}

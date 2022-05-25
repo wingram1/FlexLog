@@ -40,9 +40,15 @@ const useStyles = createStyles((theme) => ({
     flexDirection: "column",
     textAlign: "center",
     margin: "0 auto",
+    h3: {
+      width: "fit-content",
+      margin: '0 auto'
+    }
+
   },
-  calendar: {
+  calendarComponent: {
     width: "fit-content",
+    margin: '0 auto'
   },
   logWrapper: {
     display: "flex",
@@ -50,12 +56,12 @@ const useStyles = createStyles((theme) => ({
     width: "70%",
     flexDirection: "column",
     h2: {
-      margin: '20px 0 10px 0',
+      margin: "20px 0 10px 0",
       borderBottom: `1px ${theme.colors.gray[5]} solid`,
     },
   },
   dateContainer: {
-    padding: '0 20px 0 20px',
+    padding: "0 20px 0 20px",
     h3: {
       margin: "0",
     },

@@ -2,7 +2,6 @@ import React, { useState } from "react";
 
 import { Button, TextInput, PasswordInput, Group, Box } from "@mantine/core";
 
-// TODO: visit Mantine useForm docs: https://mantine.dev/form/use-form/
 // when either submit is pressed, console-logs form object
 
 function Login() {

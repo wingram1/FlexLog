@@ -1,8 +1,5 @@
 import React, { useState, useEffect } from "react";
 
-// TODO: add log button
-// TODO: grab time state, push to sessionData from props
-
 const Stopwatch = (props) => {
   const { classes, pushToSession, setIndex } = props;
 

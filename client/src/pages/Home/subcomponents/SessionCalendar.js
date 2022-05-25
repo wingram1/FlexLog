@@ -1,9 +1,6 @@
-import React, { useState } from "react";
+import React from "react";
 import { useMantineTheme } from "@mantine/core";
-import { DatePicker, Calendar, Month } from "@mantine/dates";
-
-import useStyles from "../Home.styles";
-import { getToday } from "../../../utils/dateTools";
+import { Calendar } from "@mantine/dates";
 
 function MantineCalendar(props) {
   const { pickedDate, setPickedDate, userSessions } = props;
