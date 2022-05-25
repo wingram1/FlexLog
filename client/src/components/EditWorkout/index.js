@@ -10,11 +10,11 @@ import {
   MultiSelect,
   Textarea,
 } from "@mantine/core";
-import useStyles from "./Edit.styles";
+import useStyles from "../../pages/Create/Create.styles";
 
 import EditExerciseList from "./EditExerciseList";
 
-function Edit(props) {
+function EditWorkout(props) {
   const { classes } = useStyles();
 
   const { activeWorkout, setActiveWorkout } = props;
@@ -80,7 +80,7 @@ function Edit(props) {
       };
     });
 
-    // TODO: add 'EditdBy' key to reference authenticated 'Me'
+    // TODO: add 'CreatedBy' key to reference authenticated 'Me'
     const submittedFormData = {
       title: formData.title,
       description: formData.description,
@@ -108,12 +108,14 @@ function Edit(props) {
     // get index of activeWorkout and set there
     myWorkouts[activeWorkout.index] = submittedFormData;
 
-    localForage.setItem("myWorkouts", JSON.stringify(myWorkouts)).then(() => {
-      setActiveWorkout({ state: "list", index: null, workout: {} });
+    await localForage
+      .setItem("myWorkouts", JSON.stringify(myWorkouts))
+      .then(() => {
+        setActiveWorkout({ state: "list", index: null, workout: {} });
 
-      // go back to My Workouts
-      document.location.replace("/workouts");
-    });
+        // go back to My Workouts
+        document.location.replace("/workouts");
+      });
 
     // TODO: when database is up, check for online then push there
   };
@@ -176,4 +178,4 @@ function Edit(props) {
   );
 }
 
-export default Edit;
+export default EditWorkout;

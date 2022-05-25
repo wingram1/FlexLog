@@ -123,10 +123,12 @@ function Create() {
     console.log(submittedFormData);
     console.log(myWorkouts);
 
-    localForage.setItem("myWorkouts", JSON.stringify(myWorkouts));
-
-    // go back to My Workouts
-    document.location.replace("/workouts");
+    await localForage
+      .setItem("myWorkouts", JSON.stringify(myWorkouts))
+      .then(() => {
+        // go back to My Workouts
+        document.location.replace("/workouts");
+      });
 
     // TODO: when database is up, check for online then push there
   };

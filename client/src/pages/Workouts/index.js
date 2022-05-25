@@ -6,10 +6,10 @@ import localForage from "localforage";
 import useStyles from "./Workouts.styles";
 
 import ActiveWorkout from "../../components/ActiveWorkout";
-import Edit from "../../pages/Edit";
+import EditWorkout from "../../components/EditWorkout";
 
 localForage.getItem("myWorkouts").then((value) => {
-  console.log("myWorkouts: ", JSON.parse(value));
+  console.log("myWorkouts: ", value);
 });
 
 function Workouts() {
@@ -204,7 +204,7 @@ function Workouts() {
         />
       )}
       {activeWorkout.state === "edit" && (
-        <Edit
+        <EditWorkout
           activeWorkout={activeWorkout}
           setActiveWorkout={setActiveWorkout}
         />

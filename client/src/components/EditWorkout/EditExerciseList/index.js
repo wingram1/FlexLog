@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 
 import { Button, Switch } from "@mantine/core";
-import useStyles from "./EditExerciseList.styles.js";
+import useStyles from "../../ExerciseList/ExerciseList.styles";
 
 import ExerciseOptions from "../../../components/ExerciseList/subcomponents/ExerciseOptions";
 
-function ExerciseList(props) {
+function EditExerciseList(props) {
   const { classes } = useStyles();
 
   const { activeWorkout, formData, exerciseData, setExerciseData } = props;
@@ -236,4 +236,4 @@ function ExerciseList(props) {
   );
 }
 
-export default ExerciseList;
+export default EditExerciseList;
