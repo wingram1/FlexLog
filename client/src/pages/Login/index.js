@@ -29,7 +29,7 @@ function Login() {
 
     console.log("loginForm values:", values);
 
-    // document.location.replace("/");
+    // document.location.replace("/FlexLog/");
   };
 
   const handleSignupSubmit = function (e) {
@@ -43,7 +43,7 @@ function Login() {
 
     console.log("signUpForm values:", values);
 
-    // document.location.replace("/");
+    // document.location.replace("/FlexLog/");
   };
 
   return (

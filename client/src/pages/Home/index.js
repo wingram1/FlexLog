@@ -64,12 +64,12 @@ function Home() {
       </div>
       <div className={classes.containerRowCol}>
         <div className={classes.buttons}>
-          <a href="/create" className={classes.button}>
+          <a href="/FlexLog/create" className={classes.button}>
             <Button color="green" radius="lg" size="lg">
               Create a Workout
             </Button>
           </a>
-          <a href="/workouts" className={classes.button}>
+          <a href="/FlexLog/workouts" className={classes.button}>
             <Button color="cyan" radius="lg" size="lg">
               My Workouts
             </Button>
