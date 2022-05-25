@@ -201,7 +201,7 @@ function ExerciseList(props) {
               </div>
             </div>
           </div>
-          <div className={classes.inputContainer}>
+          {/* <div className={classes.inputContainer}>
             <label className={classes.label} htmlFor="rest">
               Rest Interval (in seconds)
             </label>
@@ -214,7 +214,7 @@ function ExerciseList(props) {
               key={`rest-${exerciseData[exercise].id}`}
               onChange={handleSettingChange}
             />
-          </div>
+          </div> */}
 
           {/* TODO: icon select (return string of local link) */}
 
