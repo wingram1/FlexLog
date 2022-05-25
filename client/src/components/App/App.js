@@ -43,11 +43,6 @@ function App() {
   return (
     <MantineProvider theme={useStyles} withGlobalStyles withNormalizeCSS>
     <Router>
-      <MetaTags>
-        <title>FlexLog</title>
-        {/* Add favicon link here */}
-        {/* Add manifest link here */}
-      </MetaTags>
       <GlobalStyles />
 
       <div className={classes.wrapper}>
