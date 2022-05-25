@@ -21,10 +21,7 @@ import Create from "../../pages/Create";
 import ActiveWorkout from "../ActiveWorkout";
 import Login from "../../pages/Login";
 
-// localForage.getItem("myWorkouts").then((data) => {
-//   console.log(JSON.parse(data));
-// });
-
+// ! Uncomment to clear localForage for testing
 // localForage.clear();
 
 function App() {

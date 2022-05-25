@@ -98,16 +98,8 @@ function Edit(props) {
     await localForage
       .getItem("myWorkouts")
       .then((data) => {
+        console.log(data);
         myWorkouts = JSON.parse(data);
-        console.log("from database: ", JSON.parse(data));
-
-        // if no database, make an empty temp array
-        if (!myWorkouts) {
-          console.log("No workouts found! Creating localForage database...");
-          localForage.setItem("myWorkouts", []);
-
-          myWorkouts = [];
-        }
       })
       .catch((err) => {
         console.log(err);
@@ -116,7 +108,6 @@ function Edit(props) {
     // get index of activeWorkout and set there
     myWorkouts[activeWorkout.index] = submittedFormData;
 
-    console.log("updated myWorkouts: ", myWorkouts);
     localForage.setItem("myWorkouts", JSON.stringify(myWorkouts)).then(() => {
       setActiveWorkout({ state: "list", index: null, workout: {} });
 

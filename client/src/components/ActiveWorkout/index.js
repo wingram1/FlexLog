@@ -193,13 +193,12 @@ function ActiveWorkout(props) {
     let mySessions = {};
 
     // Check for localForage database
-    await localForage.getItem("mySessions", function (err, value) {
-      if (err) {
-        console.log(err);
+    await localForage.getItem("mySessions").then((data) => {
+      if (!data) {
         return;
       }
 
-      mySessions = JSON.parse(value);
+      mySessions = JSON.parse(data);
       console.log(mySessions);
     });
 

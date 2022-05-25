@@ -28,11 +28,17 @@ function Workouts() {
   // check localForage for Workouts then populate userWorkouts with those
   useEffect(() => {
     async function getWorkouts() {
-      const value = await localForage.getItem("myWorkouts").then((data) => {
-        return data;
-      });
-      console.log(JSON.parse(value));
-      return await JSON.parse(value);
+      const value = await localForage
+        .getItem("myWorkouts")
+        .then((data) => {
+          console.log(data);
+          return JSON.parse(data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+
+      return await value;
     }
 
     getWorkouts()
@@ -82,7 +88,7 @@ function Workouts() {
   }
 
   // TODO: opens a modal/alert to confirm, then deletes
-  function deleteWorkout(e) {
+  async function deleteWorkout(e) {
     let target;
 
     // compensate for clicking on Mantine button <span> label
@@ -93,6 +99,25 @@ function Workouts() {
     }
 
     console.log(`Delete Workout ${workoutData[target].title} clicked`);
+
+    let updatedWorkouts = [];
+
+    await localForage
+      .getItem("myWorkouts")
+      .then((data) => {
+        // make temp array and splice
+        updatedWorkouts = JSON.parse(data);
+        updatedWorkouts.splice(target, 1);
+
+        // set new data
+        localForage.setItem("myWorkouts", JSON.stringify(updatedWorkouts));
+
+        // refresh page to show changes
+        window.location.reload();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }
 
   // log workoutData for testing
