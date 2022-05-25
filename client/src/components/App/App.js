@@ -58,9 +58,7 @@ function App() {
                 component={ActiveWorkout}
               /> */}
               {/* <Route path={`/FlexLog/workouts/edit`} component={EditWorkout} /> */}
-              <Route exact path="*">
-                <p>This doesn't exist! (yet...?)</p>
-              </Route>
+              <Route exact path="*" component={Home} />
             </Switch>
           </div>
           <Footer />
