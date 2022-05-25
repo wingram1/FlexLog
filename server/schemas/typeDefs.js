@@ -10,7 +10,7 @@ const typeDefs = gql`
         mySessions: [String]
     }
     type Workout {
-        _id: ID!
+        _id: ID
         title: String
         description: String
         categories: [String]
@@ -18,13 +18,13 @@ const typeDefs = gql`
         createdBy: [User]
     }
     type Exercise {
-        _id: ID!
+        
         name: String!
         icon: String
         settings: [Settings]
     }
     type Settings {
-        _id: ID!
+        
         sets: String
         reps: String
         distance:  String
@@ -35,7 +35,7 @@ const typeDefs = gql`
     input WorkoutInput {
         title: String
         description: String
-        categories: String
+        categories: [String]
         exercises: [ExerciseInput]
     }
 
@@ -64,7 +64,7 @@ const typeDefs = gql`
     }
 
     type Mutation {
-        login(email: String!, password: String!): Auth
+        login(username: String!, password: String!): Auth
         addUser(username: String!, email: String!, password: String!): Auth
         addWorkout(input: WorkoutInput): User
         removeWorkout(_id: ID!): User

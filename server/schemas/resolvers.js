@@ -40,17 +40,17 @@ const resolvers = {
     },
 
     Mutation: {
-        login: async (parent, { email, password }) => {
-            const user = await User.findOne({ email });
+        login: async (parent, { username, password }) => {
+            const user = await User.findOne({ username });
 
             if (!user) {
-                throw new AuthenticationError('Incorrect email');
+                throw new AuthenticationError('Incorrect credentials');
             }
 
             const correctPw = await user.isCorrectPassword(password);
 
             if (!correctPw) {
-                throw new AuthenticationError('Incorrect password');
+                throw new AuthenticationError('Incorrect credentials');
             }
             const token = signToken(user);
             return { token, user };
@@ -68,7 +68,7 @@ const resolvers = {
                 console.log(workout);
                 const updatedUser = await User.findOneAndUpdate(
                     {  _id: context.user._id},
-                    { $addToSet: { myWorkouts: workout.id } },
+                    { $addToSet: { myWorkouts: workout._id } },
                     { new: true }
                     ).populate('myWorkouts');
                 return updatedUser;

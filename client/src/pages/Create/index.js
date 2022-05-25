@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from "react";
 
+import { useMutation } from '@apollo/client'
+import { ADD_WORKOUT } from '../../utils/mutations';
+import Auth from '../../utils/auth';
 import localForage from "localforage";
 
 import {
@@ -16,6 +19,8 @@ import ExerciseList from "../../components/ExerciseList";
 
 function Create() {
   const { classes } = useStyles();
+
+  const [addWorkout] = useMutation(ADD_WORKOUT);
 
   const [formData, setFormData] = useState({
     title: "",
@@ -38,7 +43,7 @@ function Create() {
   const [categorySelections, setCategorySelections] = useState([]);
 
   // updates formData with category MultiSelect
-  useEffect(() => {
+  useEffect((formData) => {
     console.log(`Selected categories: ${categorySelections}`);
     setFormData({ ...formData, categories: categorySelections });
   }, [categorySelections]);
@@ -123,13 +128,21 @@ function Create() {
     console.log(submittedFormData);
     console.log(myWorkouts);
 
-    await localForage
-      .setItem("myWorkouts", JSON.stringify(myWorkouts))
-      .then(() => {
-        // go back to My Workouts
-        document.location.replace("/workouts");
+    // await localForage
+    //   .setItem("myWorkouts", JSON.stringify(myWorkouts))
+    //   .then(() => {
+    //     // go back to My Workouts
+    //     document.location.replace("/workouts");
+    //   });
+    try {
+      const {data} = await addWorkout({
+        variables: { input: submittedFormData }
       });
-
+   
+      Auth.login(data.addWorkout.token)
+    }  catch(err) {
+      console.log(err);
+    }
     // TODO: when database is up, check for online then push there
   };
 

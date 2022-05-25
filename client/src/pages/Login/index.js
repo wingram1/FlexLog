@@ -25,7 +25,7 @@ function Login() {
     password: "",
   });
 
-  const handleLoginSubmit = function (e) {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
     const values = {
@@ -33,9 +33,15 @@ function Login() {
       password: loginForm.password,
     };
 
-    // try {
-    //   const { data } = await LOGIN_USER
-    // }
+    try {
+      const { data } = await loginUser({
+        variables: { ...loginForm}
+      });
+      console.log(data);
+      Auth.login(data.loginUser.token);
+    } catch (err) {
+      console.log(err);
+    }
     console.log("loginForm values:", values);
 
     // document.location.replace("/");
@@ -54,7 +60,7 @@ function Login() {
 
     try {
       const { data } = await addUser({
-        variables: { signupForm } }
+        variables: { ...signupForm } }
       );
       console.log(data);
       Auth.login(data.addUser.token);
