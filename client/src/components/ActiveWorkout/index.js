@@ -16,8 +16,8 @@ function ActiveWorkout(props) {
 
   const { activeWorkout, setActiveWorkout } = props;
 
-  if (!activeWorkout) {
-    console.log("No activeWorkout found! Returning to My Workouts...");
+  if (!activeWorkout || activeWorkout.state !== "active") {
+    console.log("No workout orkout found! Returning to My Workouts...");
     document.location.replace("/workouts");
   }
 
@@ -63,7 +63,7 @@ function ActiveWorkout(props) {
 
   // button to go back to myWorkouts (lose progress)
   function handleBackToWorkouts(e) {
-    setActiveWorkout(false, {});
+    setActiveWorkout({ state: "list", index: null, workout: {} });
   }
 
   function handleSetCycle(e) {

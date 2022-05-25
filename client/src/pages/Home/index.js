@@ -21,17 +21,29 @@ function Home() {
   // check localForage for sessions then populate userSessions with those
   useEffect(() => {
     async function getSessions() {
-      const value = await localForage.getItem("mySessions").then((data) => {
-        return data;
-      });
+      const value = await localForage
+        .getItem("mySessions")
+        .then((data) => {
+          return data;
+        })
+        .catch((err) => {
+          console.log(err);
+          return {};
+        });
       return JSON.parse(value);
     }
 
     getSessions()
       .then((value) => {
+        console.log(value);
+        if (!value) {
+          return;
+        }
         setUserSessions(value);
       })
-      .catch(console.error);
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
@@ -58,14 +70,15 @@ function Home() {
         </div>
         <div className={classes.calendarContainer}>
           <h3>Your Activity: </h3>
-          <SessionCalendar
-            userSessions={userSessions}
-            className={classes.calendar}
-            pickedDate={pickedDate}
-            setPickedDate={setPickedDate}
-            size="xl"
-            fullWidth
-          />
+          <div className={classes.calendarComponent}>
+            <SessionCalendar
+              userSessions={userSessions}
+              pickedDate={pickedDate}
+              setPickedDate={setPickedDate}
+              size="xl"
+              fullWidth
+            />
+          </div>
         </div>
       </div>
       <UserLog pickedDate={pickedDate} userSessions={userSessions} />

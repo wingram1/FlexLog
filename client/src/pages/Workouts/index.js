@@ -6,12 +6,19 @@ import localForage from "localforage";
 import useStyles from "./Workouts.styles";
 
 import ActiveWorkout from "../../components/ActiveWorkout";
+import Edit from "../../pages/Edit";
+
+localForage.getItem("myWorkouts").then((value) => {
+  console.log("myWorkouts: ", JSON.parse(value));
+});
 
 function Workouts() {
   const { classes } = useStyles();
 
+  // `state` takes "list", "edit", "active"
   const [activeWorkout, setActiveWorkout] = useState({
-    active: false,
+    state: "list",
+    index: null,
     workout: {},
   });
 
@@ -24,11 +31,15 @@ function Workouts() {
       const value = await localForage.getItem("myWorkouts").then((data) => {
         return data;
       });
-      return JSON.parse(value);
+      console.log(JSON.parse(value));
+      return await JSON.parse(value);
     }
 
     getWorkouts()
       .then((value) => {
+        if (!value) {
+          return;
+        }
         setWorkoutData(value);
       })
       .catch(console.error);
@@ -46,35 +57,50 @@ function Workouts() {
     }
 
     setActiveWorkout({
-      active: true,
+      state: "active",
+      index: target,
       workout: workoutData[target],
     });
   }
 
   // TODO: passes a workout through to edit page/component
   function editWorkout(e) {
-    console.log(
-      `Edit Workout ${
-        workoutData[e.target.getAttribute("data-id")].title
-      } clicked`
-    );
+    let target;
+
+    // compensate for clicking on Mantine button <span> label
+    if (e.target.nodeName === "SPAN") {
+      target = e.target.parentNode.parentNode.getAttribute("data-id");
+    } else if (e.target.nodeName === "BUTTON") {
+      target = e.target.getAttribute("data-id");
+    }
+
+    setActiveWorkout({
+      state: "edit",
+      index: target,
+      workout: workoutData[target],
+    });
   }
 
   // TODO: opens a modal/alert to confirm, then deletes
   function deleteWorkout(e) {
-    console.log(
-      `Delete Workout ${
-        workoutData[e.target.getAttribute("data-id")].title
-      } clicked`
-    );
+    let target;
+
+    // compensate for clicking on Mantine button <span> label
+    if (e.target.nodeName === "SPAN") {
+      target = e.target.parentNode.parentNode.getAttribute("data-id");
+    } else if (e.target.nodeName === "BUTTON") {
+      target = e.target.getAttribute("data-id");
+    }
+
+    console.log(`Delete Workout ${workoutData[target].title} clicked`);
   }
 
-  // log workoutData
-  // console.log(workoutData);
+  // log workoutData for testing
+  // console.log("workoutData: ", workoutData);
 
   return (
     <>
-      {!activeWorkout.active ? (
+      {activeWorkout.state === "list" && (
         <div className={classes.workoutsWrapper}>
           {/* map workouts inside here */}
           <div className={classes.workoutsContainer}>
@@ -110,9 +136,11 @@ function Workouts() {
                       </p>
                     </div>
                     <div className={classes.workoutOptions}>
-                      <Button color="gray" data-id={i} onClick={editWorkout}>
-                        Edit
-                      </Button>
+                      <Link to={{ pathname: "/workouts/edit" }}>
+                        <Button color="gray" data-id={i} onClick={editWorkout}>
+                          Edit
+                        </Button>
+                      </Link>
                       <Button color="red" data-id={i} onClick={deleteWorkout}>
                         Delete
                       </Button>
@@ -143,8 +171,15 @@ function Workouts() {
             ))}
           </div>
         </div>
-      ) : (
+      )}
+      {activeWorkout.state === "active" && (
         <ActiveWorkout
+          activeWorkout={activeWorkout}
+          setActiveWorkout={setActiveWorkout}
+        />
+      )}
+      {activeWorkout.state === "edit" && (
+        <Edit
           activeWorkout={activeWorkout}
           setActiveWorkout={setActiveWorkout}
         />
