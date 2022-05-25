@@ -19,16 +19,15 @@ const userSchema = new Schema({
         required: true,
         minlength: 5
     },
-    createdWorkouts: [
+    myWorkouts: [
         {
             type: Schema.Types.ObjectId,
             ref: 'Workout'
         }
     ],
-    savedWorkouts: [
+    mySessions: [
         {
-            type: Schema.Types.ObjectId,
-            ref: 'Workout'
+            type: String
         }
     ]
 });

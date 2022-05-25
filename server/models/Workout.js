@@ -3,15 +3,15 @@ const { Schema, model } = require('mongoose');
 
 const settingsSchema  = new Schema({
     sets: {
-        type: Number,
+        type: String,
         required: false
     },
     reps: {
-        type: Boolean,
+        type: String,
         required: false,
     },
     distance: {
-        type: Boolean,
+        type: String,
         required: false
     },
     timer: {
@@ -19,7 +19,7 @@ const settingsSchema  = new Schema({
         required: false
     },
     rest: {
-        type: Number,
+        type: String,
         required: false
     },
     

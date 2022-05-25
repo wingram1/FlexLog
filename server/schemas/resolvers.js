@@ -68,9 +68,9 @@ const resolvers = {
                 console.log(workout);
                 const updatedUser = await User.findOneAndUpdate(
                     {  _id: context.user._id},
-                    { $addToSet: { createdWorkouts: workout.id } },
+                    { $addToSet: { myWorkouts: workout.id } },
                     { new: true }
-                    ).populate('createdWorkouts');
+                    ).populate('myWorkouts');
                 return updatedUser;
             }
             throw new AuthenticationError('You are not logged in');
