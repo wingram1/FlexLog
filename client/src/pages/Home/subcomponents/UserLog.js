@@ -12,8 +12,8 @@ function UserLog(props) {
 
   const { pickedDate, userSessions } = props;
 
-  const mostRecent =
-    Object.keys(userSessions)[Object.keys(userSessions).length - 1];
+  // const mostRecent =
+  //   Object.keys(userSessions)[Object.keys(userSessions).length - 1];
 
   const pickedDateString = pickedDate.toDateString();
 
@@ -26,18 +26,21 @@ function UserLog(props) {
       {userSessions ? (
         userSessions[pickedDateString] ? (
           <div className={classes.dateContainer}>
-            {userSessions[pickedDateString] === userSessions[today] ? (
-              <h3>Today's Activity ({pickedDateString}): </h3>
-            ) : (
-              <h3>Activity for {pickedDate.toDateString()}</h3>
-            )}
+            <div className={classes.dateHeader}>
+              {userSessions[pickedDateString] === userSessions[today] ? (
+                <h3>Today's Activity ({pickedDateString}): </h3>
+              ) : (
+                <h3>Activity for {pickedDate.toDateString()}</h3>
+              )}
+            </div>
             {Object.keys(userSessions[pickedDateString]).map((day, i) => {
               const session = userSessions[pickedDateString][day];
               return (
-                <div>
-                  <h3>
-                    {session.title} - {session.time}
-                  </h3>
+                <div className={classes.sessionsContainer}>
+                  <div className={classes.logHeader}>
+                    <h3>{session.title}</h3>
+                    <h3>{session.time}</h3>
+                  </div>
                   <ul>
                     {/* map exercises */}
                     {session.exercises.map((exercise, i) => {
@@ -82,7 +85,7 @@ function UserLog(props) {
                                         :
                                       </span>{" "}
                                       {/* seconds */}
-                                      <span>{set.time}</span>
+                                      <span>{`0${set.time}`.slice(-2)}</span>
                                     </li>
                                   ) : (
                                     <></>

@@ -146,53 +146,60 @@ function ExerciseList(props) {
             <p>Additional Settings:</p>
           </strong>
           <div className={classes.settings}>
-            <label className={classes.label} htmlFor="reps">
-              Reps:
-            </label>
-            <Switch
-              name="reps"
-              data-id={exerciseData[exercise].id}
-              key={`reps-${exerciseData[exercise].id}`}
-              onChange={handleSettingChange}
-            />
-            {/* TODO: add weight setting */}
-            <br />
-            <label className={classes.label} htmlFor="weight">
-              Weight:
-            </label>
-            <Switch
-              name="weight"
-              data-id={exerciseData[exercise].id}
-              key={`weight-${exerciseData[exercise].id}`}
-              onChange={handleSettingChange}
-            />
-            <br />
-            <label className={classes.label} htmlFor="distance">
-              Distance:
-            </label>
-            <Switch
-              name="distance"
-              type="checkbox"
-              data-id={exerciseData[exercise].id}
-              key={`distance-${exerciseData[exercise].id}`}
-              onChange={handleSettingChange}
-            />
-            <br />
-            <label className={classes.label} htmlFor="timer">
-              Timer:
-            </label>
-            <select
-              name="timer"
-              className={classes.select}
-              data-id={exerciseData[exercise].id}
-              key={`timer-${exerciseData[exercise].id}`}
-              onChange={handleSettingChange}
-            >
-              <option value="">None</option>
-              <option value="countdown">Countdown</option>
-              <option value="stopwatch">Stopwatch</option>
-            </select>
-            <br />
+            <div>
+              <label className={classes.label} htmlFor="reps">
+                Reps:
+              </label>
+              <Switch
+                name="reps"
+                data-id={exerciseData[exercise].id}
+                key={`reps-${exerciseData[exercise].id}`}
+                onChange={handleSettingChange}
+              />
+              {/* TODO: add weight setting */}
+              <br />
+              <label className={classes.label} htmlFor="weight">
+                Weight:
+              </label>
+              <Switch
+                name="weight"
+                data-id={exerciseData[exercise].id}
+                key={`weight-${exerciseData[exercise].id}`}
+                onChange={handleSettingChange}
+              />
+              <br />
+            </div>
+            <div>
+              <div>
+                <label className={classes.label} htmlFor="distance">
+                  Distance:
+                </label>
+                <Switch
+                  name="distance"
+                  type="checkbox"
+                  data-id={exerciseData[exercise].id}
+                  key={`distance-${exerciseData[exercise].id}`}
+                  onChange={handleSettingChange}
+                />
+              </div>
+              <div>
+                <label className={classes.label} htmlFor="timer">
+                  Timer:
+                </label>
+                <select
+                  name="timer"
+                  className={classes.select}
+                  data-id={exerciseData[exercise].id}
+                  key={`timer-${exerciseData[exercise].id}`}
+                  onChange={handleSettingChange}
+                >
+                  <option value="">None</option>
+                  <option value="countdown">Countdown</option>
+                  <option value="stopwatch">Stopwatch</option>
+                </select>
+                <br />
+              </div>
+            </div>
           </div>
           <div className={classes.inputContainer}>
             <label className={classes.label} htmlFor="rest">

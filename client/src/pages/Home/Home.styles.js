@@ -12,29 +12,34 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     justifyContent: "center",
     textAlign: "center",
+    margin: "0 10px",
     h2: {
       margin: "20px 0 10px 0",
     },
   },
   containerRowCol: {
     width: "100%",
+    maxWidth: "1000px",
+    margin: "0 auto",
     display: "flex",
     flexDirection: "row",
+    [`@media(max-width: 980px)`]: { flexDirection: "column" },
   },
   buttons: {
-    width: "50%",
+    width: "100%",
     height: "20%",
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
     padding: "10px",
+    margin: "0 auto",
   },
   button: {
     width: "fit-content",
     margin: "10px auto",
   },
   calendarContainer: {
-    width: "30%",
+    width: "100%",
     display: "flex",
     justifyContent: "center",
     flexDirection: "column",
@@ -42,29 +47,56 @@ const useStyles = createStyles((theme) => ({
     margin: "0 auto",
     h3: {
       width: "fit-content",
-      margin: '0 auto'
-    }
-
+      margin: "0 auto",
+    },
   },
   calendarComponent: {
     width: "fit-content",
-    margin: '0 auto'
+    margin: "0 auto",
   },
   logWrapper: {
     display: "flex",
-    margin: "0 auto",
+    margin: "30px auto 0 auto",
     width: "70%",
     flexDirection: "column",
     h2: {
-      margin: "20px 0 10px 0",
+      backgroundColor: theme.colors.red[6],
+      color: theme.colors.gray[0],
+      padding: "20px 30px 10px 30px",
+      borderTopLeftRadius: 8,
+      borderTopRightRadius: 8,
+      margin: "0 0 20px 0",
       borderBottom: `1px ${theme.colors.gray[5]} solid`,
     },
+    backgroundColor: theme.colors.gray[0],
+    border: `1px ${theme.colors.gray[5]} solid`,
+    borderRadius: 8,
   },
   dateContainer: {
+    width: "100%",
+    justifyContent: "center",
     padding: "0 20px 0 20px",
     h3: {
-      margin: "0",
+      width: "fit-content",
+      margin: 0,
     },
+  },
+  dateHeader: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+  },
+  logHeader: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  sessionsContainer: {
+    backgroundColor: theme.colors.gray[0],
+    border: `1px ${theme.colors.gray[5]} solid`,
+    borderRadius: 8,
+    margin: "10px 20px 10px 20px",
+    padding: "5px 20px 10px 20px",
   },
 }));
 

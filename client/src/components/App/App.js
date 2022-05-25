@@ -24,6 +24,10 @@ import Login from "../../pages/Login";
 // ! Uncomment to clear localForage for testing
 // localForage.clear();
 
+const jsonstring = `'{"title":"title"}'`;
+
+console.log(jsonstring);
+
 localForage.getItem("myWorkouts").then((data) => {
   console.log("myWorkouts: ", JSON.parse(data));
 });

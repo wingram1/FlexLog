@@ -25,6 +25,10 @@ const useStyles = createStyles((theme) => ({
       width: "30%",
       minWidth: "150px",
     },
+    [`@media(max-width: 550px)`]: {
+      width: '90%',
+    },
+    
   },
   setHeader: {
     display: "flex",
@@ -52,7 +56,7 @@ const useStyles = createStyles((theme) => ({
     flexDirection: "row-reverse",
   },
 
-  //   Timer subcomopnent classes
+  //   Timer subcomponent classes
   timerForm: {
     display: "flex",
     justifyContent: "center",
@@ -89,6 +93,7 @@ const useStyles = createStyles((theme) => ({
         margin: '0 5px'
     }
   },
+  //   Stopwatch subcomponent classes
   stopwatch: {
     display: "flex",
     alignItems: "center",
@@ -103,7 +108,7 @@ const useStyles = createStyles((theme) => ({
     borderRadius: 230,
   },
 
-  //   Stopwatch subcomponent classes
+  
 }));
 
 export default useStyles;

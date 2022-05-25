@@ -51,9 +51,16 @@ function Home() {
       {" "}
       <div className={classes.welcome}>
         <h2>Welcome to FlexLog!</h2>
-        <p>
-          Sign up or Log in to sync your workouts and activities across devices!
-        </p>
+        {/* TODO: replace with condition */}
+        {false === true ? (
+          // TODO: re
+          <p>Hello, {`user`}!</p>
+        ) : (
+          <p>
+            Sign up or Log in to sync your workouts and activities across
+            devices!
+          </p>
+        )}
       </div>
       <div className={classes.containerRowCol}>
         <div className={classes.buttons}>

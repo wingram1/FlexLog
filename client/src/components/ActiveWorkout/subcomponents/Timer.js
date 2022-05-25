@@ -53,8 +53,13 @@ function Timer(props) {
             key={key}
             isPlaying={timerPlaying ? true : false}
             duration={timerDuration}
-            colors={["#004777", "#F7B801", "#A30000", "#A30000"]}
-            colorsTime={[7, 5, 2, 0]}
+            colors={["#004777", "#66A80F", "##FCC419", "#C92A2A"]}
+            colorsTime={[
+              timerDuration,
+              timerDuration * 0.75,
+              timerDuration * 0.5,
+              timerDuration * 0.25,
+            ]}
             size={230}
             style={{ margin: "0 auto" }}
             onComplete={() => {
