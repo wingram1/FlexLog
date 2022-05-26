@@ -58,6 +58,7 @@ const useStyles = createStyles((theme) => ({
     display: "flex",
     margin: "30px auto 0 auto",
     width: "70%",
+    maxWidth: "1000px",
     flexDirection: "column",
     backgroundColor: theme.colors.gray[0],
     border: `1px ${theme.colors.gray[5]} solid`,
@@ -72,11 +73,11 @@ const useStyles = createStyles((theme) => ({
       borderBottom: `1px ${theme.colors.gray[5]} solid`,
     },
     ul: {
-      paddingLeft: '20px',
+      paddingLeft: "20px",
       li: {
-        paddingLeft: '10px',
-      }
-    }
+        paddingLeft: "10px",
+      },
+    },
   },
   dateContainer: {
     width: "100%",
