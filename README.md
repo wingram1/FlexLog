@@ -18,7 +18,7 @@ FlexLog is a fitness PWA that allows users to create, follow, and track their wo
 - Rest timers between sets
 - Custom Exercise icons
 
-[Click here to check out the deployed application!](https://shielded-stream-03290.herokuapp.com/)
+[Click here to check out the deployed application!](https://wingram1.github.io/FlexLog)
 
 ![screenshot](./images/screenshot.png)
 
