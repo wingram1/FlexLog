@@ -63,10 +63,10 @@ Licensed under the [MIT](https://opensource.org/licenses/MIT) license.
 
 William Ingram
 
-- GitHub: wingram1
+- GitHub: github.com/wingram1
 - Email: waingram96@gmail.com
 
 John Maclellan
 
-- GitHub:
-- Email:
+- GitHub: github.com/j-maclellan
+- Email: maclellanj15@gmail.com
