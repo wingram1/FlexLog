@@ -6,14 +6,13 @@ function Header() {
 
   return (
     <header className={classes.header}>
-      <a href="/" className={classes.title}>
+      <a href="/">
         <h1>FlexLog</h1>
       </a>
       <div className={classes.spacer}></div>
-      {/* <a href="/login" className={classes.links}>
+      <a href="/login" className={classes.links}>
         <p>Log In/Sign Up</p>
-        
-      </a> */}
+      </a>
     </header>
   );
 }

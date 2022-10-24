@@ -42,27 +42,27 @@ function App() {
 
   return (
     <MantineProvider theme={useStyles} withGlobalStyles withNormalizeCSS>
-    <Router>
-      <GlobalStyles />
+      <Router>
+        <GlobalStyles />
 
-      <div className={classes.wrapper}>
-        <Header />
-        <div className={classes.content}>
-          <Switch>
-            <Route exact path="/" component={Home} />
-            <Route exact path="/create" component={Create} />
-            <Route exact path="/login" component={Login} />
-            <Route exact path="/workouts" component={Workouts} />
-            <Route exact path="/workouts/active" component={ActiveWorkout} />
-            <Route exact path="/workouts/edit" component={EditWorkout} />
-            <Route exact path="*">
-              <p>This doesn't exist! (yet...?)</p>
-            </Route>
-          </Switch>
+        <div className={classes.wrapper}>
+          <Header />
+          <div className={classes.content}>
+            <Switch>
+              <Route exact path="/" component={Home} />
+              <Route exact path="/create" component={Create} />
+              <Route exact path="/login" component={Login} />
+              <Route exact path="/workouts" component={Workouts} />
+              <Route exact path="/workouts/active" component={ActiveWorkout} />
+              <Route exact path="/workouts/edit" component={EditWorkout} />
+              <Route exact path="*">
+                <p>This doesn't exist! (yet...?)</p>
+              </Route>
+            </Switch>
+          </div>
+          <Footer />
         </div>
-        <Footer />
-      </div>
-    </Router>
+      </Router>
     </MantineProvider>
   );
 }

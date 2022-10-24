@@ -8,14 +8,11 @@ const useStyles = createStyles((theme) => ({
     width: "100%",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "left", // TODO change to "space-evenly" when login button re-added
+    justifyContent: "space-evenly",
     alignItems: "center",
     padding: "0 15px 0 15px",
   },
-  title: {
-    padding: "0 200px 0 200px",
-    [`@media(max-width: 980px)`]: { padding: "0", margin: "0 auto" },
-  },
+  title: {},
   links: {
     textDecoration: "inherit",
   },
