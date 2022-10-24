@@ -21,7 +21,7 @@ import Create from "../../pages/Create";
 import ActiveWorkout from "../ActiveWorkout";
 import Login from "../../pages/Login";
 
-// ! Uncomment to clear localForage for testing
+// ! Uncomment to clear localForage for testing purposes
 // localForage.clear();
 
 localForage.getItem("myWorkouts").then((data) => {
