@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/FlexLog/static/css/main.e6c13ad2.css",
+    "main.js": "/FlexLog/static/js/main.197cd995.js",
+    "static/js/787.763bbf33.chunk.js": "/FlexLog/static/js/787.763bbf33.chunk.js",
+    "service-worker.js": "/FlexLog/service-worker.js",
+    "index.html": "/FlexLog/index.html",
+    "main.e6c13ad2.css.map": "/FlexLog/static/css/main.e6c13ad2.css.map",
+    "main.197cd995.js.map": "/FlexLog/static/js/main.197cd995.js.map",
+    "787.763bbf33.chunk.js.map": "/FlexLog/static/js/787.763bbf33.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.197cd995.js"
+  ]
+}
