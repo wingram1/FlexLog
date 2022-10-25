@@ -133,7 +133,7 @@ function Workouts() {
             {" "}
             <div className={classes.workoutsHeader}>
               <h2>My Workouts</h2>
-              <a href="/create">
+              <a href="/FlexLog/create">
                 <Button color="green" radius="md" size="md">
                   Create
                 </Button>

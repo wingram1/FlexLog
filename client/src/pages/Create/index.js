@@ -127,7 +127,7 @@ function Create() {
       .setItem("myWorkouts", JSON.stringify(myWorkouts))
       .then(() => {
         // go back to My Workouts
-        document.location.replace("/workouts");
+        document.location.replace("/FlexLog/workouts");
       });
 
     // TODO: when database is up, check for online then push there

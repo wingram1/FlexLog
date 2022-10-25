@@ -114,7 +114,7 @@ function EditWorkout(props) {
         setActiveWorkout({ state: "list", index: null, workout: {} });
 
         // go back to My Workouts
-        document.location.replace("/workouts");
+        document.location.replace("/FlexLog/workouts");
       });
 
     // TODO: when database is up, check for online then push there

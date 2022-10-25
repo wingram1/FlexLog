@@ -18,7 +18,7 @@ function ActiveWorkout(props) {
 
   if (!activeWorkout || activeWorkout.state !== "active") {
     console.log("No workout orkout found! Returning to My Workouts...");
-    document.location.replace("/workouts");
+    document.location.replace("/FlexLog/workouts");
   }
 
   // sets state for activeExercise
@@ -218,7 +218,7 @@ function ActiveWorkout(props) {
     localForage.setItem("mySessions", JSON.stringify(mySessions));
 
     // back to home
-    document.location.replace("/");
+    document.location.replace("/FlexLog");
   }
 
   const setData = sessionData.exercises[activeExercise.currentIndex].setData;
