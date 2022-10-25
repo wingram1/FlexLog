@@ -6,7 +6,7 @@ function Header() {
 
   return (
     <header className={classes.header}>
-      <a href="/" className={classes.title}>
+      <a href="/FlexLog" className={classes.title}>
         <h1>FlexLog</h1>
       </a>
       <div className={classes.spacer}></div>

@@ -49,12 +49,12 @@ function App() {
           <Header />
           <div className={classes.content}>
             <Switch>
-              <Route exact path="/" component={Home} />
-              <Route exact path="/create" component={Create} />
-              <Route exact path="/login" component={Login} />
-              <Route exact path="/workouts" component={Workouts} />
-              <Route exact path="/workouts/active" component={ActiveWorkout} />
-              <Route exact path="/workouts/edit" component={EditWorkout} />
+              <Route exact path="/FlexLog" component={Home} />
+              <Route exact path="/FlexLog/create" component={Create} />
+              <Route exact path="/FlexLog/login" component={Login} />
+              <Route exact path="/FlexLog/workouts" component={Workouts} />
+              <Route exact path="/FlexLog/workouts/active" component={ActiveWorkout} />
+              <Route exact path="/FlexLog/workouts/edit" component={EditWorkout} />
               <Route exact path="*">
                 <p>This doesn't exist! (yet...?)</p>
               </Route>
