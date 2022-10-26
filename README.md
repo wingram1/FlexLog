@@ -10,7 +10,7 @@ FlexLog is a fitness PWA that allows users to create, follow, and track their wo
 
 - Installable and mobile-friendly - for on-the-go or at-home!
 - Offline functionality - no need for an internet connection!
-- Sync your workouts across devices by making an account!
+<!-- - Sync your workouts across devices by making an account! -->
 
 ### Future development
 
